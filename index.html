@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MET-Ai Solutions | Healthcare Innovation Through AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   TOKENS & RESET
+═══════════════════════════════════════════════════════ */
+:root{
+  --c1:#0a0f2e;       /* deep navy */
+  --c2:#0d1a4a;
+  --c3:#00c8c8;       /* electric teal */
+  --c4:#00f0f0;
+  --c5:#7c3aed;       /* vivid purple */
+  --c6:#f59e0b;       /* amber */
+  --bg:#f8faff;
+  --card:#fff;
+  --text:#0a0f2e;
+  --muted:#64748b;
+  --border:rgba(10,15,46,0.08);
+  --sh1:0 4px 24px rgba(10,15,46,0.08);
+  --sh2:0 16px 60px rgba(10,15,46,0.14);
+  --sh3:0 32px 80px rgba(10,15,46,0.18);
+  --r:20px;
+  --r2:32px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+::selection{background:var(--c3);color:#000}
+
+/* ═══ CURSOR ═══ */
+#cur,#cur2{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
+#cur{width:10px;height:10px;background:var(--c3);box-shadow:0 0 20px var(--c3);transition:transform .1s}
+#cur2{width:36px;height:36px;border:1.5px solid rgba(0,200,200,.5);transition:transform .18s ease,width .3s,height .3s}
+
+/* ═══ NAVIGATION ═══ */
+nav{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  z-index:9000;width:calc(100% - 48px);max-width:1300px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;padding:0 28px;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:100px;
+  box-shadow:0 8px 40px rgba(10,15,46,.1),0 0 0 1px rgba(0,200,200,.08);
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+}
+nav.scrolled{top:12px;background:rgba(255,255,255,.95);box-shadow:0 12px 48px rgba(10,15,46,.14)}
+.nav-brand{display:flex;align-items:center;gap:12px;background:none;border:none;cursor:pointer;padding:0}
+.nav-brand img{width:44px;height:44px;border-radius:50%;object-fit:contain;background:linear-gradient(135deg,rgba(0,200,200,.1),rgba(124,58,237,.1))}
+.nav-brand-text .name{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--c1);letter-spacing:-.3px}
+.nav-brand-text .name em{font-style:normal;color:var(--c3)}
+.nav-brand-text .sub{font-size:9px;color:var(--c5);letter-spacing:2.5px;text-transform:uppercase;font-weight:600;font-family:'Space Mono',monospace}
+.nav-menu{display:flex;gap:4px;align-items:center}
+.nav-menu a{padding:8px 14px;border-radius:50px;font-size:13.5px;font-weight:500;color:var(--muted);transition:all .2s;white-space:nowrap}
+.nav-menu a:hover{color:var(--c1);background:rgba(10,15,46,.05)}
+.nav-menu .has-drop{position:relative}
+.drop-menu{position:absolute;top:calc(100%+14px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--border);border-radius:18px;padding:8px;min-width:200px;box-shadow:var(--sh2);opacity:0;pointer-events:none;transition:all .25s;transform-origin:top center}
+.has-drop:hover .drop-menu{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.drop-menu a{display:block;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:500;color:var(--muted);transition:all .2s}
+.drop-menu a:hover{color:var(--c1);background:var(--bg)}
+.nav-cta{padding:10px 24px;background:linear-gradient(135deg,var(--c1),var(--c5));color:#fff;font-size:13px;font-weight:600;border-radius:50px;letter-spacing:.3px;transition:all .3s;box-shadow:0 4px 20px rgba(124,58,237,.3);white-space:nowrap}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,.45)}
+
+/* ═══ LOGO OVERLAY ═══ */
+.logo-ov{display:none;position:fixed;inset:0;z-index:99998;background:rgba(10,15,46,.96);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.logo-ov.on{display:flex}
+.logo-ov img{width:min(280px,70vw);height:min(280px,70vw);border-radius:50%;box-shadow:0 0 80px rgba(0,200,200,.5);animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.logo-ov h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff}
+.logo-ov p{font-size:12px;color:var(--c3);letter-spacing:3px;text-transform:uppercase;font-family:'Space Mono',monospace}
+.logo-ov-close{padding:10px 28px;border:1.5px solid rgba(255,255,255,.2);border-radius:50px;color:rgba(255,255,255,.7);background:none;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all .3s}
+.logo-ov-close:hover{border-color:var(--c3);color:var(--c3)}
+
+/* ═══ HERO ═══ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:120px 80px 80px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--c1) 0%,#0f1e5c 45%,#1a0f4e 100%);
+}
+/* Diagonal edge at bottom */
+.hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:120px;background:var(--bg);clip-path:polygon(0 100%,100% 100%,100% 30%,0 100%)}
+/* Animated grid */
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,.04) 1px,transparent 1px);background-size:64px 64px;animation:gridScroll 20s linear infinite}
+@keyframes gridScroll{to{background-position:64px 64px}}
+/* Orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;pointer-events:none}
+.orb1{width:600px;height:600px;background:var(--c3);top:-150px;right:-100px;animation:orbDrift 14s ease-in-out infinite}
+.orb2{width:450px;height:450px;background:var(--c5);bottom:-100px;left:-80px;animation:orbDrift 18s ease-in-out infinite reverse}
+.orb3{width:300px;height:300px;background:var(--c6);top:40%;right:20%;animation:orbDrift 10s ease-in-out infinite}
+@keyframes orbDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-30px)}}
+.hero-content{position:relative;z-index:2;max-width:660px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:50px;background:rgba(0,200,200,.12);border:1px solid rgba(0,200,200,.25);font-size:12px;color:var(--c4);letter-spacing:2.5px;font-family:'Space Mono',monospace;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .8s both}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--c6);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(42px,6.5vw,84px);font-weight:800;line-height:1.04;color:#fff;margin-bottom:24px;animation:fadeUp .8s .1s both;letter-spacing:-1.5px}
+.hero h1 .grad{background:linear-gradient(90deg,var(--c3),var(--c4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .grad2{background:linear-gradient(90deg,var(--c6),#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:44px;animation:fadeUp .8s .2s both;max-width:580px}
+.hero-sub strong{color:rgba(255,255,255,.9)}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s both}
+.btn-primary{padding:15px 36px;background:linear-gradient(135deg,var(--c3),var(--c4));color:var(--c1);font-weight:700;font-size:14px;letter-spacing:.5px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;box-shadow:0 8px 32px rgba(0,200,200,.4)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 44px rgba(0,200,200,.55)}
+.btn-ghost{padding:14px 36px;background:rgba(255,255,255,.08);color:#fff;font-weight:600;font-size:14px;border-radius:50px;border:1.5px solid rgba(255,255,255,.2);cursor:pointer;transition:all .3s;backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.5)}
+/* Hero robot */
+.hero-visual{position:absolute;right:80px;top:50%;transform:translateY(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:0}
+.speech-bubble{background:rgba(255,255,255,.08);backdrop-filter:blur(16px);border:1px solid rgba(0,212,212,.3);border-radius:20px;padding:14px 20px;max-width:230px;margin-bottom:14px;animation:bubbleBob 3s ease-in-out infinite;position:relative;text-align:center}
+.speech-bubble::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border:10px solid transparent;border-top-color:rgba(255,255,255,.08)}
+.speech-bubble p{font-size:13px;color:#fff;line-height:1.6}
+.speech-bubble strong{color:var(--c4)}
+@keyframes bubbleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero-scroll{position:absolute;bottom:140px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.4);font-size:10px;letter-spacing:3px;text-transform:uppercase}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--c3),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ SECTION EDGES ═══ */
+/* Clip-path edge shapes applied per section */
+.edge-tl{clip-path:polygon(0 0,100% 8%,100% 100%,0 100%)}
+.edge-tr{clip-path:polygon(0 8%,100% 0,100% 100%,0 100%)}
+.edge-wave{clip-path:ellipse(110% 100% at 50% 100%)}
+.edge-both{clip-path:polygon(0 6%,100% 0,100% 94%,0 100%)}
+.edge-diamond-top::before{content:'';position:absolute;top:-60px;left:0;right:0;height:60px;background:inherit;clip-path:polygon(50% 0%,100% 100%,0 100%)}
+.section-wrap{position:relative}
+
+/* ═══ STATS BAR ═══ */
+.stats{background:var(--c1);padding:50px 80px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background-image:linear-gradient(to right,rgba(0,200,200,.15) 1px,transparent 1px);background-size:25% 100%}
+.stat{text-align:center;padding:30px 20px}
+.stat-n{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--c3),var(--c4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-l{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-top:8px;font-family:'Space Mono',monospace}
+
+/* ═══ SHARED SECTION ═══ */
+section{padding:100px 80px;position:relative}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--c3);margin-bottom:16px}
+.sec-eyebrow::before{content:'';width:28px;height:2px;background:linear-gradient(90deg,var(--c3),var(--c5));border-radius:2px}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(32px,4.5vw,58px);font-weight:800;line-height:1.08;color:var(--c1);margin-bottom:20px;letter-spacing:-1px}
+.sec-title em{font-style:normal;background:linear-gradient(90deg,var(--c3),var(--c5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-sub{font-size:17px;color:var(--muted);line-height:1.8;max-width:560px}
+
+/* ═══ ABOUT ═══ */
+.about-bg{background:linear-gradient(160deg,#f8faff 0%,#eef2ff 100%)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px}
+.about-quote-block{border-left:3px solid var(--c3);padding:22px 28px;background:linear-gradient(90deg,rgba(0,200,200,.06),transparent);border-radius:0 16px 16px 0;font-size:19px;font-weight:600;color:var(--c1);line-height:1.7;margin-bottom:32px;font-style:italic}
+.about-text p{font-size:16px;color:var(--muted);line-height:1.9;margin-bottom:18px}
+.about-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.a-pill{display:flex;align-items:center;gap:8px;padding:10px 20px;background:#fff;border:1.5px solid var(--border);border-radius:50px;font-size:13px;font-weight:600;color:var(--c1);transition:all .3s;box-shadow:var(--sh1)}
+.a-pill:hover{border-color:var(--c3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,200,200,.15)}
+.about-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.a-cta{padding:12px 28px;border-radius:50px;font-size:13.5px;font-weight:700;letter-spacing:.3px;transition:all .3s;cursor:pointer;border:none}
+.a-cta.solid{background:linear-gradient(135deg,var(--c1),var(--c5));color:#fff;box-shadow:0 6px 24px rgba(124,58,237,.3)}
+.a-cta.solid:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.45)}
+.a-cta.outline{background:transparent;color:var(--c1);border:1.5px solid var(--border)}
+.a-cta.outline:hover{border-color:var(--c3);color:var(--c3)}
+/* Right col - metrics cards */
+.about-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:28px 24px;box-shadow:var(--sh1);transition:all .35s;position:relative;overflow:hidden}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
+.metric-card:nth-child(1)::before{background:linear-gradient(90deg,var(--c3),var(--c4))}
+.metric-card:nth-child(2)::before{background:linear-gradient(90deg,var(--c5),#a855f7)}
+.metric-card:nth-child(3)::before{background:linear-gradient(90deg,var(--c6),#fbbf24)}
+.metric-card:nth-child(4)::before{background:linear-gradient(90deg,#06b6d4,var(--c3))}
+.metric-card:hover{transform:translateY(-6px);box-shadow:var(--sh2)}
+.metric-num{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;line-height:1;margin-bottom:8px}
+.metric-card:nth-child(1) .metric-num{background:linear-gradient(135deg,var(--c3),var(--c4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.metric-card:nth-child(2) .metric-num{background:linear-gradient(135deg,var(--c5),#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.metric-card:nth-child(3) .metric-num{background:linear-gradient(135deg,var(--c6),#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.metric-card:nth-child(4) .metric-num{background:linear-gradient(135deg,#06b6d4,var(--c3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.metric-label{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-weight:600;font-family:'Space Mono',monospace}
+
+/* ═══ SOLUTIONS ═══ */
+.sol-bg{background:linear-gradient(160deg,var(--c1) 0%,#0f1e6a 100%)}
+.sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.sol-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:36px 30px;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;backdrop-filter:blur(12px)}
+.sol-card::before{content:'';position:absolute;inset:0;border-radius:var(--r2);background:linear-gradient(135deg,rgba(0,200,200,.07),rgba(124,58,237,.07));opacity:0;transition:opacity .4s}
+.sol-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0;background:linear-gradient(90deg,var(--c3),var(--c5));transform:scaleX(0);transition:transform .4s;transform-origin:left}
+.sol-card:hover{transform:translateY(-8px);border-color:rgba(0,200,200,.25);box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.sol-card:hover::before{opacity:1}
+.sol-card:hover::after{transform:scaleX(1)}
+.sol-icon-wrap{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:22px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);transition:all .3s}
+.sol-card:hover .sol-icon-wrap{background:rgba(0,200,200,.12);border-color:rgba(0,200,200,.3);transform:scale(1.08)}
+.sol-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:12px}
+.sol-desc{font-size:14px;color:rgba(255,255,255,.55);line-height:1.8}
+.sol-link{display:inline-flex;align-items:center;gap:6px;margin-top:20px;font-size:13px;font-weight:700;color:var(--c3);letter-spacing:.5px;transition:gap .2s}
+.sol-card:hover .sol-link{gap:12px}
+
+/* ═══ VISION ═══ */
+.vis-bg{background:var(--bg)}
+.vis-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:64px;position:relative}
+.vis-steps::before{content:'';position:absolute;top:48px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,var(--c3),var(--c5),var(--c6))}
+.vis-step{text-align:center;padding:0 16px}
+.vis-num{width:96px;height:96px;border-radius:50%;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;position:relative;z-index:2;transition:all .4s}
+.vis-step:nth-child(1) .vis-num{background:linear-gradient(135deg,var(--c3),var(--c4));box-shadow:0 8px 32px rgba(0,200,200,.4)}
+.vis-step:nth-child(2) .vis-num{background:linear-gradient(135deg,#06b6d4,var(--c3));box-shadow:0 8px 32px rgba(6,182,212,.4)}
+.vis-step:nth-child(3) .vis-num{background:linear-gradient(135deg,var(--c5),#a855f7);box-shadow:0 8px 32px rgba(124,58,237,.4)}
+.vis-step:nth-child(4) .vis-num{background:linear-gradient(135deg,var(--c6),#fbbf24);box-shadow:0 8px 32px rgba(245,158,11,.4)}
+.vis-step:nth-child(5) .vis-num{background:linear-gradient(135deg,var(--c1),var(--c5));box-shadow:0 8px 32px rgba(10,15,46,.4)}
+.vis-step:hover .vis-num{transform:scale(1.12) translateY(-4px)}
+.vis-icon{font-size:28px;margin-bottom:12px}
+.vis-step-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--c1);margin-bottom:10px}
+.vis-step-desc{font-size:13px;color:var(--muted);line-height:1.75}
+
+/* ═══ TECHNOLOGY ═══ */
+.tech-bg{background:linear-gradient(160deg,var(--c1),#0a1a40)}
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
+.tech-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:28px 20px;text-align:center;transition:all .35s;text-decoration:none;display:block;position:relative;overflow:hidden}
+.tech-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--c3),var(--c5));transform:scaleX(0);transition:transform .35s;transform-origin:center}
+.tech-card:hover{transform:translateY(-6px);border-color:rgba(0,200,200,.25);background:rgba(0,200,200,.05);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.tech-card:hover::after{transform:scaleX(1)}
+.tech-emoji{font-size:40px;margin-bottom:14px}
+.tech-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.tech-sub{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.5px}
+.tech-arrow{font-size:12px;color:var(--c3);font-weight:700;margin-top:14px;opacity:0;transition:opacity .3s}
+.tech-card:hover .tech-arrow{opacity:1}
+
+/* ═══ CONTACT ═══ */
+.contact-bg{background:linear-gradient(160deg,#f0f4ff,#e8eeff)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:60px;margin-top:56px;align-items:start}
+/* Contact info */
+.contact-info h3{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--c1);margin-bottom:10px}
+.contact-info p{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:32px}
+/* Action buttons */
+.contact-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.c-action{display:flex;align-items:center;gap:14px;padding:16px 20px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r);text-decoration:none;color:inherit;transition:all .3s;box-shadow:var(--sh1);cursor:pointer}
+.c-action:hover{transform:translateX(4px);box-shadow:var(--sh2)}
+.c-action-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-action-label{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.c-action-value{font-size:14px;color:var(--c1);font-weight:600}
+/* Social symbols */
+.social-row{display:flex;gap:10px;flex-wrap:wrap}
+.soc-btn{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;transition:all .3s;cursor:pointer}
+.soc-btn:hover{transform:translateY(-4px)}
+.soc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;border:1.5px solid;transition:all .3s;box-shadow:var(--sh1)}
+.soc-btn:hover .soc-icon{box-shadow:0 8px 24px rgba(10,15,46,.18)}
+.soc-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.5px;font-family:'Space Mono',monospace}
+/* Map */
+.map-wrap{margin-top:28px;border-radius:var(--r);overflow:hidden;border:1.5px solid var(--border);box-shadow:var(--sh1)}
+.map-wrap iframe{width:100%;height:220px;border:none;display:block}
+/* Form card */
+.form-card{background:#fff;border-radius:var(--r2);padding:48px 44px;box-shadow:var(--sh3);border:1px solid var(--border);position:relative;overflow:hidden}
+.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--c3),var(--c5),var(--c6))}
+.form-card h3{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--c1);margin-bottom:6px}
+.form-card>p{font-size:14px;color:var(--muted);margin-bottom:32px;line-height:1.6}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f-group{margin-bottom:18px}
+.f-group label{display:block;font-size:11px;font-weight:700;color:var(--c1);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.f-group input,.f-group select,.f-group textarea{width:100%;padding:14px 18px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;color:var(--c1);font-family:'Inter',sans-serif;font-size:14.5px;outline:none;transition:all .3s;appearance:none}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{border-color:var(--c3);background:#fff;box-shadow:0 0 0 4px rgba(0,200,200,.08)}
+.f-group input::placeholder,.f-group textarea::placeholder{color:#b0bec5}
+.f-group textarea{resize:vertical;min-height:120px}
+.f-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.f-submit{width:100%;padding:18px;background:linear-gradient(135deg,var(--c1),var(--c5));color:#fff;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;border:none;border-radius:14px;cursor:pointer;transition:all .3s;box-shadow:0 8px 32px rgba(124,58,237,.3);margin-top:4px}
+.f-submit:hover{transform:translateY(-3px);box-shadow:0 14px 44px rgba(124,58,237,.45)}
+.f-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.f-msg{display:none;margin-top:14px;padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600}
+.f-msg.ok{display:block;background:rgba(0,200,200,.1);border:1px solid rgba(0,200,200,.3);color:var(--c3)}
+.f-msg.err{display:block;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#ef4444}
+
+/* ═══ WHY US STRIP ═══ */
+.why-strip{background:linear-gradient(135deg,var(--c1),#1a0f5e);padding:80px;position:relative;overflow:hidden}
+.why-strip::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,.04) 1px,transparent 1px);background-size:48px 48px}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;position:relative;z-index:1}
+.why-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:36px 28px;transition:all .35s;position:relative;overflow:hidden;backdrop-filter:blur(10px)}
+.why-card:hover{border-color:rgba(0,200,200,.25);transform:translateY(-6px);background:rgba(0,200,200,.05)}
+.why-icon{font-size:44px;margin-bottom:18px}
+.why-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:12px}
+.why-desc{font-size:14px;color:rgba(255,255,255,.55);line-height:1.8}
+.why-num{position:absolute;top:20px;right:24px;font-family:'Space Mono',monospace;font-size:36px;font-weight:700;color:rgba(255,255,255,.04)}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--c1);position:relative;overflow:hidden}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--c3),transparent)}
+.footer-main{padding:72px 80px 48px;display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr 1fr;gap:60px}
+.footer-brand-logo{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.footer-brand-logo img{width:48px;height:48px;border-radius:50%;object-fit:contain;background:rgba(255,255,255,.06)}
+.footer-brand-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff}
+.footer-brand-name em{font-style:normal;color:var(--c3)}
+.footer-brand-sub{font-size:10px;color:rgba(0,200,200,.7);letter-spacing:2px;text-transform:uppercase;font-family:'Space Mono',monospace}
+.footer-brand p{font-size:13.5px;color:rgba(255,255,255,.4);line-height:1.85;max-width:280px}
+.footer-col h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;letter-spacing:.5px;margin-bottom:20px}
+.footer-col li{margin-bottom:10px}
+.footer-col a{font-size:13.5px;color:rgba(255,255,255,.45);transition:all .2s}
+.footer-col a:hover{color:var(--c3);padding-left:4px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding:28px 80px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:rgba(255,255,255,.3)}
+.footer-bottom .highlight{color:var(--c6);font-weight:600}
+
+/* ═══ CHATBOT — FULLY WORKING ═══ */
+/* Toggle button */
+#chatBtn{
+  position:fixed;bottom:28px;right:28px;z-index:8000;
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c3),var(--c5));
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .3s,box-shadow .3s;
+  box-shadow:0 8px 32px rgba(0,200,200,.45);
+  animation:chatPulse 2.5s ease-in-out infinite;
+}
+#chatBtn:hover{transform:scale(1.08);animation:none;box-shadow:0 12px 44px rgba(0,200,200,.6)}
+@keyframes chatPulse{
+  0%,100%{box-shadow:0 8px 32px rgba(0,200,200,.45),0 0 0 0 rgba(0,200,200,.25)}
+  50%{box-shadow:0 8px 32px rgba(0,200,200,.45),0 0 0 16px rgba(0,200,200,0)}
+}
+#chatBadge{
+  position:absolute;top:-3px;right:-3px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--c6);border:2.5px solid var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#fff;font-weight:700;font-family:'Syne',sans-serif;
+}
+
+/* Panel */
+#chatPanel{
+  position:fixed;bottom:106px;right:28px;z-index:8001;
+  width:368px;max-height:580px;
+  background:#fff;border-radius:24px;
+  box-shadow:0 28px 80px rgba(10,15,46,.22),0 0 0 1px rgba(10,15,46,.06);
+  display:flex;flex-direction:column;overflow:hidden;
+  opacity:0;pointer-events:none;
+  transform:translateY(20px) scale(.97);
+  transition:opacity .3s cubic-bezier(.4,0,.2,1),transform .3s cubic-bezier(.4,0,.2,1);
+}
+#chatPanel.ch-open{
+  opacity:1;pointer-events:auto;
+  transform:translateY(0) scale(1);
+}
+
+/* Header */
+.ch-header{
+  background:linear-gradient(135deg,var(--c1) 0%,var(--c5) 100%);
+  padding:18px 20px;display:flex;align-items:center;gap:14px;flex-shrink:0;
+}
+.ch-avatar{
+  width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:23px;border:2px solid rgba(255,255,255,.3);flex-shrink:0;
+}
+.ch-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.2}
+.ch-status{font-size:11px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px;margin-top:3px}
+.ch-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:chBlink 2s ease-in-out infinite;flex-shrink:0}
+@keyframes chBlink{0%,100%{opacity:1}50%{opacity:.3}}
+.ch-close{
+  margin-left:auto;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.85);font-size:16px;cursor:pointer;
+  width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;
+}
+.ch-close:hover{background:rgba(255,255,255,.25);color:#fff}
+
+/* Messages area */
+.ch-messages{
+  flex:1;overflow-y:auto;padding:16px 14px;
+  display:flex;flex-direction:column;gap:14px;
+  scroll-behavior:smooth;min-height:0;
+}
+.ch-messages::-webkit-scrollbar{width:4px}
+.ch-messages::-webkit-scrollbar-track{background:transparent}
+.ch-messages::-webkit-scrollbar-thumb{background:rgba(10,15,46,.1);border-radius:4px}
+
+/* Message rows */
+.ch-msg{display:flex;gap:9px;align-items:flex-end;animation:chMsgPop .3s ease}
+@keyframes chMsgPop{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.ch-msg-user{flex-direction:row-reverse}
+.ch-msg-bot{flex-direction:row}
+
+/* Avatars */
+.ch-msg-av{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.ch-av-bot{background:linear-gradient(135deg,var(--c3),var(--c5))}
+.ch-av-user{background:linear-gradient(135deg,var(--c1),#4338ca)}
+
+/* Bubble body */
+.ch-msg-body{display:flex;flex-direction:column;max-width:82%}
+.ch-msg-user .ch-msg-body{align-items:flex-end}
+.ch-msg-bot .ch-msg-body{align-items:flex-start}
+
+.ch-bubble{
+  padding:11px 15px;border-radius:18px;
+  font-size:13.5px;line-height:1.7;font-family:'Inter',sans-serif;
+  word-break:break-word;
+}
+.ch-msg-bot .ch-bubble{
+  background:#f0f4ff;color:var(--c1);
+  border-radius:4px 18px 18px 18px;
+}
+.ch-msg-user .ch-bubble{
+  background:linear-gradient(135deg,var(--c1),#4338ca);
+  color:#fff;border-radius:18px 18px 4px 18px;
+}
+.ch-time{font-size:10px;color:#b0bec5;margin-top:5px;padding:0 4px}
+
+/* Typing indicator */
+.ch-typing-bubble{
+  display:flex;align-items:center;gap:5px;
+  padding:13px 18px;
+  background:#f0f4ff;border-radius:4px 18px 18px 18px;
+}
+.ch-tdot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--c3);
+  animation:chTyping 1.2s ease-in-out infinite;
+}
+.ch-tdot:nth-child(2){animation-delay:.2s}
+.ch-tdot:nth-child(3){animation-delay:.4s}
+@keyframes chTyping{0%,60%,100%{transform:translateY(0);opacity:.6}30%{transform:translateY(-8px);opacity:1}}
+
+/* Quick reply buttons */
+.ch-quickreplies{
+  padding:8px 12px 4px;display:flex;flex-wrap:wrap;gap:7px;
+  border-top:1px solid rgba(10,15,46,.06);flex-shrink:0;
+}
+.ch-qbtn{
+  padding:6px 14px;border-radius:50px;
+  background:var(--bg);border:1.5px solid rgba(10,15,46,.1);
+  color:var(--c1);font-size:12px;font-weight:600;
+  cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;
+  white-space:nowrap;
+}
+.ch-qbtn:hover{
+  background:linear-gradient(135deg,var(--c3),var(--c5));
+  color:#fff;border-color:transparent;transform:translateY(-1px);
+}
+
+/* Input row */
+.ch-inputrow{
+  padding:12px 14px;display:flex;gap:10px;
+  border-top:1px solid rgba(10,15,46,.08);
+  background:#fff;flex-shrink:0;align-items:center;
+}
+.ch-input{
+  flex:1;border:1.5px solid rgba(10,15,46,.1);border-radius:50px;
+  padding:10px 18px;font-size:13.5px;font-family:'Inter',sans-serif;
+  color:var(--c1);outline:none;transition:border-color .25s,box-shadow .25s;
+  background:var(--bg);
+}
+.ch-input:focus{border-color:var(--c3);box-shadow:0 0 0 3px rgba(0,200,200,.1);background:#fff}
+.ch-input::placeholder{color:#b0bec5}
+.ch-send{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c3),var(--c5));
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .25s;
+}
+.ch-send:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(0,200,200,.4)}
+.ch-send:active{transform:scale(.95)}
+
+/* ══════════════════════════════════════
+   CONTACT SECTION — COMPLETE
+══════════════════════════════════════ */
+.contact-bg{background:linear-gradient(160deg,#f0f4ff 0%,#eaeeff 100%)}
+
+/* ── 4 Contact Cards Row ── */
+.contact-cards-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.contact-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:24px 18px;text-align:center;transition:all .35s;text-decoration:none;color:inherit;display:block;box-shadow:var(--sh1)}
+.contact-card:hover{transform:translateY(-6px);box-shadow:var(--sh2);border-color:var(--c3)}
+.contact-card-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.contact-card-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:5px}
+.contact-card-value{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--c1);margin-bottom:8px;word-break:break-all}
+.contact-card-action{font-size:12px;color:var(--c3);font-weight:600}
+
+/* ── Social Strip ── */
+.contact-social-strip{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:48px;padding:18px 24px;background:#fff;border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh1)}
+.social-strip-label{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.5px;flex-shrink:0;margin-right:4px}
+.soc-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:50px;background:var(--bg);border:1.5px solid var(--border);font-size:13px;font-weight:600;color:var(--c1);text-decoration:none;transition:all .25s}
+.soc-pill:hover{border-color:var(--c3);background:#e8f9f9;transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,200,200,.15)}
+
+/* ── Main Two-Column Grid ── */
+.contact-main-grid{display:grid;grid-template-columns:1fr 1.45fr;gap:40px;align-items:start}
+
+/* ── Left column ── */
+.contact-left-col{display:flex;flex-direction:column;gap:20px}
+.contact-info-box{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:28px 24px;box-shadow:var(--sh1)}
+.cinfo-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--c1);margin-bottom:8px}
+.cinfo-sub{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.cinfo-detail{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--muted)}
+.cinfo-detail:last-child{border-bottom:none}
+.cinfo-detail svg{flex-shrink:0}
+
+/* ── Google Map container ── */
+.map-container{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh1)}
+.map-header{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#fff;border-bottom:1px solid var(--border);font-size:12.5px;font-weight:600;color:var(--muted)}
+.map-header svg{flex-shrink:0}
+.map-open-btn{margin-left:auto;font-size:11.5px;color:var(--c3);font-weight:700;text-decoration:none;padding:5px 12px;background:rgba(0,200,200,.08);border:1px solid rgba(0,200,200,.2);border-radius:50px;transition:all .2s;white-space:nowrap}
+.map-open-btn:hover{background:rgba(0,200,200,.16);color:var(--c1)}
+.map-frame-wrap{position:relative;width:100%;height:260px;overflow:hidden}
+.map-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* ── Form card ── */
+.form-card{background:#fff;border-radius:var(--r2);padding:40px 36px;box-shadow:var(--sh3);border:1px solid var(--border);position:relative;overflow:hidden}
+.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--c3),var(--c5),var(--c6));border-radius:var(--r2) var(--r2) 0 0}
+.form-card-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.form-card-icon{font-size:36px;flex-shrink:0;line-height:1}
+.form-card-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--c1);margin-bottom:4px}
+.form-card-sub{font-size:13.5px;color:var(--muted);line-height:1.6}
+
+/* ── Progress indicator ── */
+.form-progress{display:flex;align-items:center;gap:0;margin-bottom:28px}
+.fp-step{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--muted);transition:color .3s;white-space:nowrap}
+.fp-step.active{color:var(--c3)}
+.fp-step.done{color:var(--c5)}
+.fp-dot{width:26px;height:26px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:all .3s;background:#fff}
+.fp-step.active .fp-dot{background:var(--c3);border-color:var(--c3);color:#fff}
+.fp-step.done .fp-dot{background:var(--c5);border-color:var(--c5);color:#fff}
+.fp-line{flex:1;height:2px;background:var(--border);margin:0 8px;border-radius:2px;transition:background .3s}
+.fp-line.done{background:var(--c5)}
+
+/* ── Form steps ── */
+.form-step{animation:stepIn .3s ease}
+@keyframes stepIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.form-step.hidden{display:none}
+
+/* ── Form fields ── */
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-group{margin-bottom:16px}
+.f-group label{display:block;font-size:11.5px;font-weight:700;color:var(--c1);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.req{color:var(--c3);font-size:13px}
+.f-group input,.f-group select,.f-group textarea{
+  width:100%;padding:13px 16px;background:var(--bg);
+  border:1.5px solid rgba(10,15,46,.1);border-radius:12px;
+  color:var(--c1);font-family:'Inter',sans-serif;font-size:14px;
+  outline:none;transition:all .25s;appearance:none;-webkit-appearance:none
+}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{
+  border-color:var(--c3);background:#fff;
+  box-shadow:0 0 0 4px rgba(0,200,200,.08)
+}
+.f-group input::placeholder,.f-group textarea::placeholder{color:#b0bec5}
+.f-group textarea{resize:vertical;min-height:110px;line-height:1.6}
+.f-group select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;cursor:pointer
+}
+.char-count{font-size:11px;color:var(--muted);text-align:right;margin-top:5px}
+
+/* ── Buttons ── */
+.f-next-btn{
+  width:100%;padding:15px;background:linear-gradient(135deg,var(--c3),var(--c4));
+  color:var(--c1);font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  border:none;border-radius:12px;cursor:pointer;transition:all .3s;
+  box-shadow:0 6px 24px rgba(0,200,200,.3);letter-spacing:.5px
+}
+.f-next-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,200,200,.45)}
+.f-step2-btns{display:flex;gap:12px;margin-top:4px}
+.f-back-btn{
+  padding:15px 22px;background:transparent;color:var(--muted);
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:600;
+  border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .25s;flex-shrink:0
+}
+.f-back-btn:hover{border-color:var(--c1);color:var(--c1)}
+.f-submit-btn{
+  flex:1;padding:15px;background:linear-gradient(135deg,var(--c1),var(--c5));
+  color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  border:none;border-radius:12px;cursor:pointer;transition:all .3s;
+  box-shadow:0 6px 24px rgba(124,58,237,.3);letter-spacing:.3px;
+  display:flex;align-items:center;justify-content:center;gap:8px
+}
+.f-submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.45)}
+.f-submit-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+/* ── Review box ── */
+.review-box{background:var(--bg);border-radius:14px;padding:20px;margin-bottom:16px;font-size:13.5px;color:var(--muted)}
+.review-row{display:flex;padding:7px 0;border-bottom:1px solid var(--border);gap:10px}
+.review-row:last-child{border-bottom:none}
+.review-key{font-weight:700;color:var(--c1);min-width:110px;flex-shrink:0}
+.review-val{color:var(--muted);word-break:break-word}
+.privacy-note{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted);margin-bottom:16px;padding:10px 14px;background:rgba(0,200,200,.05);border-radius:10px;border:1px solid rgba(0,200,200,.15)}
+
+/* ── Success state ── */
+.form-success{text-align:center;padding:20px 0}
+.form-success.hidden{display:none}
+.success-icon{font-size:52px;margin-bottom:14px;animation:successPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes successPop{from{transform:scale(0)}to{transform:scale(1)}}
+.form-success h4{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--c1);margin-bottom:10px}
+.form-success p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px}
+.success-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.success-link{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;text-decoration:none;border:none}
+.success-link.whatsapp{background:rgba(37,211,102,.1);border:1.5px solid rgba(37,211,102,.3);color:#1a8a3a}
+.success-link.whatsapp:hover{background:rgba(37,211,102,.2)}
+.success-link.reset{background:var(--bg);border:1.5px solid var(--border);color:var(--muted)}
+.success-link.reset:hover{border-color:var(--c1);color:var(--c1)}
+
+/* ── Status message ── */
+.f-msg{display:none;margin-top:12px;padding:12px 16px;border-radius:10px;font-size:13.5px;font-weight:600}
+.f-msg.ok{display:block;background:rgba(0,200,200,.08);border:1px solid rgba(0,200,200,.25);color:#0d7070}
+.f-msg.err{display:block;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);color:#c53030}
+
+/* ══════════════════════════════════════
+   FULL RESPONSIVE — PHONE · TABLET · DESKTOP
+══════════════════════════════════════ */
+/* Desktop (>1100px): all defaults above */
+
+/* Tablet (641px – 1100px) */
+@media(max-width:1100px){
+  nav{top:14px;width:calc(100% - 32px);padding:0 20px}
+  .nav-menu{gap:2px}
+  .nav-menu a{padding:7px 10px;font-size:13px}
+  section{padding:80px 40px}
+  .hero{padding:100px 40px 80px}
+  .hero h1{font-size:clamp(36px,6vw,66px)}
+  .hero-visual{right:30px}
+  .stats{padding:40px}
+  .contact-cards-row{grid-template-columns:1fr 1fr;gap:14px}
+  .contact-main-grid{grid-template-columns:1fr;gap:28px}
+  .map-frame-wrap{height:300px}
+  .sol-grid{grid-template-columns:1fr 1fr}
+  .tech-grid{grid-template-columns:repeat(4,1fr)}
+  .vis-steps{grid-template-columns:repeat(3,1fr);gap:28px}
+  .vis-steps::before{display:none}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .about-inner{grid-template-columns:1fr;gap:36px}
+  .footer-main{grid-template-columns:1fr 1fr;padding:30px 40px 44px;gap:36px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center;padding:20px 40px}
+  #chatPanel{width:340px}
+}
+
+/* Mobile (≤640px) */
+@media(max-width:640px){
+  nav{top:10px;width:calc(100% - 20px);padding:0 16px;height:60px}
+  .nav-menu{display:none}
+  .nav-cta{padding:9px 18px;font-size:12px}
+  .nav-brand-text .name{font-size:14px}
+  .nav-brand-text .sub{display:none}
+  .nav-brand img{width:36px;height:36px}
+  section{padding:60px 20px}
+  .hero{padding:90px 20px 60px;min-height:auto}
+  .hero::after{height:50px}
+  .hero h1{font-size:clamp(30px,9vw,46px);letter-spacing:-.5px}
+  .hero-sub{font-size:15px}
+  .hero-btns{flex-direction:column;gap:10px}
+  .btn-primary,.btn-ghost{width:100%;text-align:center;justify-content:center;padding:14px}
+  .hero-visual{display:none}
+  .hero-scroll{bottom:70px}
+  .stats{grid-template-columns:1fr 1fr;padding:28px 20px;gap:0}
+  .stat-n{font-size:36px}
+  .sol-grid{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:1fr 1fr}
+  .vis-steps{grid-template-columns:1fr;gap:20px}
+  .vis-steps::before{display:none}
+  .about-inner{grid-template-columns:1fr;gap:28px}
+  .about-metrics{grid-template-columns:1fr 1fr}
+  .why-grid{grid-template-columns:1fr}
+  .contact-cards-row{grid-template-columns:1fr 1fr;gap:10px}
+  .contact-card{padding:16px 12px}
+  .contact-card-icon{width:44px;height:44px}
+  .contact-card-value{font-size:11px}
+  .contact-card-action{font-size:10px}
+  .contact-social-strip{gap:8px;padding:14px 16px}
+  .soc-pill{font-size:12px;padding:7px 14px}
+  .contact-main-grid{grid-template-columns:1fr;gap:22px}
+  .map-frame-wrap{height:240px}
+  .form-card{padding:24px 18px;border-radius:20px}
+  .f-row{grid-template-columns:1fr}
+  .f-step2-btns{flex-direction:column;gap:10px}
+  .f-back-btn{order:2;width:100%}
+  .f-submit-btn{order:1;width:100%}
+  .form-progress{gap:0}
+  .fp-step span{display:none}
+  .footer-main{grid-template-columns:1fr;padding:24px 20px 36px;gap:28px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center;padding:16px 20px;font-size:11px}
+  #chatBtn{width:54px;height:54px;bottom:20px;right:16px}
+  #chatPanel{width:calc(100vw - 20px);right:10px;bottom:88px;max-height:calc(100vh - 110px)}
+  .review-row{flex-direction:column;gap:3px}
+  .review-key{min-width:auto}
+}
+
+/* Very small phones (≤380px) */
+@media(max-width:380px){
+  .contact-cards-row{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:1fr}
+  .about-metrics{grid-template-columns:1fr}
+}
+
+/* ═══ REVEAL ANIMATION ═══ */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1024px){
+  nav{top:12px;width:calc(100% - 32px);padding:0 20px}
+  .nav-menu{display:none}
+  section{padding:70px 32px}
+  .hero{padding:110px 32px 80px}
+  .hero-visual{display:none}
+  .hero::after{height:70px}
+  .stats{padding:40px 32px;grid-template-columns:1fr 1fr}
+  .about-inner,.contact-grid{grid-template-columns:1fr;gap:40px}
+  .about-metrics{grid-template-columns:1fr 1fr}
+  .sol-grid{grid-template-columns:1fr 1fr}
+  .tech-grid{grid-template-columns:1fr 1fr}
+  .vis-steps{grid-template-columns:1fr 1fr;gap:28px}
+  .vis-steps::before{display:none}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .footer-main{grid-template-columns:1fr 1fr;gap:40px}
+  .footer-bottom{flex-direction:column;gap:10px;text-align:center;padding:20px 32px}
+}
+@media(max-width:640px){
+  .sol-grid,.tech-grid,.why-grid{grid-template-columns:1fr}
+  .about-metrics{grid-template-columns:1fr}
+  .contact-actions{grid-template-columns:1fr}
+  .f-row{grid-template-columns:1fr}
+  .hero-btns{flex-direction:column}
+  .stat-n{font-size:40px}
+}
+
+/* ADVANCED SEARCH */
+.nav-search{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 13px;background:var(--bg,#f6f9ff);border:1.5px solid rgba(10,15,46,.1);border-radius:50px;cursor:pointer;color:#5b667e;font-family:'Inter',sans-serif;font-size:13px;transition:all .25s;margin-right:6px}
+.nav-search:hover{border-color:var(--c3);color:var(--c1)}
+.nav-search .kbd{font-family:'Space Mono',monospace;font-size:10px;background:#fff;border:1px solid rgba(10,15,46,.1);border-radius:6px;padding:2px 6px}
+#searchOv{position:fixed;inset:0;z-index:99999;background:rgba(6,10,30,.62);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding:12vh 20px 20px}
+#searchOv.on{display:flex;animation:soIn .22s ease}
+@keyframes soIn{from{opacity:0}to{opacity:1}}
+.s-box{width:100%;max-width:640px;background:#fff;border-radius:22px;box-shadow:0 40px 120px rgba(0,0,0,.5);overflow:hidden;animation:sbUp .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes sbUp{from{transform:translateY(18px);opacity:.6}to{transform:translateY(0);opacity:1}}
+.s-top{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid rgba(10,15,46,.08)}
+.s-top svg{color:var(--c3);flex-shrink:0}
+#searchInput{flex:1;border:none;outline:none;font-family:'Inter',sans-serif;font-size:17px;color:var(--c1);background:none}
+#searchInput::placeholder{color:#9aa5bd}
+.s-esc{font-family:'Space Mono',monospace;font-size:10px;background:#f6f9ff;border:1px solid rgba(10,15,46,.08);border-radius:6px;padding:3px 8px;color:#5b667e}
+.s-results{max-height:52vh;overflow-y:auto;padding:8px}
+.s-results::-webkit-scrollbar{width:6px}.s-results::-webkit-scrollbar-thumb{background:rgba(10,15,46,.12);border-radius:6px}
+.s-group{padding:12px 12px 4px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5b667e}
+.s-item{display:flex;align-items:center;gap:14px;padding:11px 12px;border-radius:12px;cursor:pointer;transition:background .15s;text-decoration:none}
+.s-item:hover,.s-item.sel{background:#f6f9ff}
+.s-txt{flex:1;min-width:0}
+.s-t{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--c1)}
+.s-d{font-size:12.5px;color:#5b667e;line-height:1.5;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-arrow{flex-shrink:0;color:#c2cadb}
+.s-empty{padding:44px 20px;text-align:center;color:#5b667e}
+.s-foot{display:flex;gap:18px;padding:12px 20px;border-top:1px solid rgba(10,15,46,.08);font-size:11.5px;color:#5b667e}
+.s-foot .k{font-family:'Space Mono',monospace;background:#f6f9ff;border:1px solid rgba(10,15,46,.08);border-radius:5px;padding:1px 6px;margin-right:5px}
+@media(max-width:900px){.nav-search .stxt,.nav-search .kbd{display:none}.nav-search{padding:0;width:40px;justify-content:center}}
+
+
+.founder-strip{display:flex;align-items:center;gap:22px;max-width:1200px;margin:56px auto 0;padding:22px 30px;background:#fff;border:1px solid rgba(10,15,46,.08);border-radius:22px;box-shadow:0 8px 32px rgba(10,15,46,.07);transition:all .3s;text-decoration:none}
+.founder-strip:hover{border-color:rgba(0,200,200,.4);box-shadow:0 16px 48px rgba(10,15,46,.12);transform:translateY(-3px)}
+.founder-strip-img{width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(0,200,200,.4)}
+.founder-strip-text{flex:1;min-width:0}
+.founder-strip-eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#00a8a8;margin-bottom:4px}
+.founder-strip-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#0a0f2e;margin-bottom:4px}
+.founder-strip-desc{font-size:13px;color:#5b667e;line-height:1.6}
+.founder-strip-cta{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;padding:11px 20px;background:linear-gradient(135deg,#00c8c8,#7c3aed);color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;border-radius:50px;white-space:nowrap}
+@media(max-width:640px){.founder-strip{flex-wrap:wrap;padding:20px;margin-top:36px}.founder-strip-cta{width:100%;justify-content:center}}
+
+/* MOBILE HAMBURGER + NAV PANEL */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;background:var(--bg,#f6f9ff);border:1.5px solid rgba(10,15,46,.1);border-radius:50%;cursor:pointer;padding:0;flex-shrink:0}
+.nav-hamburger span{display:block;width:16px;height:2px;background:var(--c1,#0a0f2e);border-radius:2px;margin:0 auto;transition:all .3s}
+.nav-hamburger.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.on span:nth-child(2){opacity:0}
+.nav-hamburger.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mnav-backdrop{display:none;position:fixed;inset:0;z-index:9400;background:rgba(6,10,30,.55);backdrop-filter:blur(4px)}
+.mnav-backdrop.on{display:block;animation:soIn .2s ease}
+.mnav-panel{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);z-index:9500;background:#fff;box-shadow:-20px 0 60px rgba(10,15,46,.25);transform:translateX(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding:100px 26px 26px}
+.mnav-panel.on{transform:translateX(0)}
+.mnav-links{display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.mnav-links a{padding:14px 6px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--c1,#0a0f2e);border-bottom:1px solid rgba(10,15,46,.06);transition:color .2s}
+.mnav-links a:hover{color:var(--c3,#00c8c8)}
+.mnav-cta{margin-top:20px;text-align:center;padding:14px;background:linear-gradient(135deg,var(--c1,#0a0f2e),var(--c5,#7c3aed));color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;border-radius:50px}
+@media(max-width:1024px){
+  .nav-menu{display:none!important}
+  .nav-hamburger{display:flex}
+}
+@media(min-width:1025px){
+  .mnav-backdrop,.mnav-panel{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ── CURSOR ── -->
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- ── LOGO OVERLAY ── -->
+<div class="logo-ov" id="logoOv" onclick="if(event.target===this)closeLogo()">
+  <img src="logo1.png" alt="MET-Ai Solutions">
+  <h2>MET-Ai Solutions</h2>
+  <p>Medi Electronic Technology &ndash; AI Solutions</p>
+  <button class="logo-ov-close" onclick="closeLogo()">&#10005; Close</button>
+</div>
+
+<!-- ══════════════════════ NAV ══════════════════════ -->
+<nav id="navbar">
+  <button class="nav-brand" onclick="openLogo()" aria-label="View Logo">
+    <img src="logo1.png" alt="MET-Ai Logo">
+    <div class="nav-brand-text">
+      <div class="name">MET-<em>Ai</em> Solutions</div>
+      <div class="sub">Healthcare Innovation Through AI</div>
+    </div>
+  </button>
+  <ul class="nav-menu">
+    <li><a href="met-ai-solutions.html">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#technology">Technology</a></li>
+    <li class="has-drop"><a href="#" onclick="return false">More ▾</a>
+      <div class="drop-menu">
+        <a href="why-metai.html">Why MET-Ai?</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="impact.html">Impact &amp; Outcomes</a>
+        <a href="industries.html">Industries</a>
+        <a href="careers.html">Careers</a>
+        <a href="founder.html">Founder &amp; CEO</a>
+      </div>
+    </li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-search" onclick="openSearch()" aria-label="Search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <span class="stxt">Search</span><span class="kbd">Ctrl K</span>
+  </button>
+  <a href="#contact" class="nav-cta">Get In Touch</a>
+  <button class="nav-hamburger" id="hamBtn" onclick="toggleMobileNav()" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV PANEL -->
+<div class="mnav-backdrop" id="mnavBackdrop" onclick="closeMobileNav()"></div>
+<div class="mnav-panel" id="mnavPanel" role="dialog" aria-label="Site navigation">
+  <div class="mnav-links">
+    <a href="met-ai-solutions.html" onclick="closeMobileNav()">Home</a>
+    <a href="#about" onclick="closeMobileNav()">About</a>
+    <a href="#solutions" onclick="closeMobileNav()">Solutions</a>
+    <a href="#vision" onclick="closeMobileNav()">Vision</a>
+    <a href="#technology" onclick="closeMobileNav()">Technology</a>
+    <a href="why-metai.html" onclick="closeMobileNav()">Why MET-Ai?</a>
+    <a href="how-it-works.html" onclick="closeMobileNav()">How It Works</a>
+    <a href="impact.html" onclick="closeMobileNav()">Impact &amp; Outcomes</a>
+    <a href="industries.html" onclick="closeMobileNav()">Industries</a>
+    <a href="careers.html" onclick="closeMobileNav()">Careers</a>
+    <a href="founder.html" onclick="closeMobileNav()">Founder &amp; CEO</a>
+    <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  </div>
+  <a href="#contact" class="mnav-cta" onclick="closeMobileNav()">Get In Touch</a>
+</div>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="dot"></span>Bharat's Healthcare AI Revolution</div>
+    <h1>
+      <span class="grad">Healthcare</span><br>
+      Innovation Through<br>
+      <span class="grad2">Artificial Intelligence</span>
+    </h1>
+    <p class="hero-sub">
+      <strong>MET-Ai Solutions</strong> — Medi Electronic Technology – AI Solutions — is building the future of hospitals. From <strong>automated diagnosis</strong> to <strong>predictive treatment</strong>, every touchpoint powered by intelligent technology.
+    </p>
+    <div class="hero-btns">
+      <a href="#solutions" class="btn-primary">Explore Our Solutions</a>
+      <a href="#contact" class="btn-ghost">Contact Us</a>
+    </div>
+  </div>
+  <!-- Robot Doctor -->
+  <div class="hero-visual">
+    <div class="speech-bubble">
+ <p>Welcome. I am <strong>MediBot</strong>.<br>Ask me anything about MET-Ai.</p>
+    </div>
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" width="210" height="294" style="animation:robFloat 3s ease-in-out infinite;filter:drop-shadow(0 20px 40px rgba(0,200,200,.4))">
+      <defs>
+        <linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00c8c8"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient>
+        <linearGradient id="rg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0a0f2e"/><stop offset="100%" stop-color="#1a0f5e"/></linearGradient>
+        <linearGradient id="rg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d2a3a"/><stop offset="100%" stop-color="#0a0f2e"/></linearGradient>
+      </defs>
+      <rect x="42" y="120" width="116" height="120" rx="14" fill="white" opacity=".95"/>
+      <rect x="52" y="120" width="96" height="110" rx="10" fill="#f0f4ff"/>
+      <polygon points="100,130 70,150 75,240 100,240" fill="white"/>
+      <polygon points="100,130 130,150 125,240 100,240" fill="white"/>
+      <polygon points="100,128 90,145 100,155 110,145" fill="url(#rg1)"/>
+      <path d="M72,160 Q60,165 62,178 Q64,188 74,188 Q84,188 84,178" stroke="#00c8c8" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="74" cy="190" r="7" fill="#00c8c8" opacity=".9"/>
+      <rect x="110" y="148" width="30" height="22" rx="5" fill="rgba(0,200,200,.12)" stroke="#00c8c8" stroke-width="1"/>
+      <line x1="125" y1="152" x2="125" y2="166" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="118" y1="159" x2="132" y2="159" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="84" y="175" width="32" height="40" rx="5" fill="url(#rg3)" stroke="#00c8c8" stroke-width="1.5"/>
+      <rect x="88" y="180" width="24" height="14" rx="3" fill="#00c8c8" opacity=".25"/>
+      <line x1="88" y1="198" x2="112" y2="198" stroke="#00c8c8" stroke-width="1.5" opacity=".6"/>
+      <line x1="88" y1="203" x2="106" y2="203" stroke="#00c8c8" stroke-width="1.5" opacity=".4"/>
+      <rect x="14" y="122" width="30" height="75" rx="14" fill="white" opacity=".92"/>
+      <rect x="156" y="122" width="30" height="75" rx="14" fill="white" opacity=".92"/>
+      <ellipse cx="29" cy="203" rx="15" ry="12" fill="#e0e8ff"/>
+      <ellipse cx="171" cy="203" rx="15" ry="12" fill="#e0e8ff"/>
+      <rect x="62" y="232" width="32" height="40" rx="12" fill="url(#rg1)" opacity=".9"/>
+      <rect x="106" y="232" width="32" height="40" rx="12" fill="url(#rg1)" opacity=".9"/>
+      <ellipse cx="78" cy="273" rx="18" ry="8" fill="#0a0f2e"/>
+      <ellipse cx="122" cy="273" rx="18" ry="8" fill="#0a0f2e"/>
+      <rect x="52" y="36" width="96" height="88" rx="28" fill="url(#rg2)" stroke="#00c8c8" stroke-width="2"/>
+      <rect x="64" y="48" width="72" height="52" rx="14" fill="url(#rg3)"/>
+      <ellipse cx="85" cy="68" rx="7" ry="8" fill="#00c8c8"/>
+      <ellipse cx="85" cy="68" rx="4" ry="4.5" fill="#fff" opacity=".9"/>
+      <circle cx="86.5" cy="66.5" r="1.5" fill="#0a0f2e"/>
+      <ellipse cx="115" cy="68" rx="7" ry="8" fill="#00c8c8"/>
+      <ellipse cx="115" cy="68" rx="4" ry="4.5" fill="#fff" opacity=".9"/>
+      <circle cx="116.5" cy="66.5" r="1.5" fill="#0a0f2e"/>
+      <path d="M82,84 Q100,95 118,84" stroke="#00c8c8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <rect x="32" y="52" width="22" height="36" rx="11" fill="#0a0f2e" stroke="#00c8c8" stroke-width="1.5"/>
+      <circle cx="43" cy="52" r="7" fill="#00c8c8" opacity=".7"/>
+      <rect x="146" y="52" width="22" height="36" rx="11" fill="#0a0f2e" stroke="#00c8c8" stroke-width="1.5"/>
+      <circle cx="157" cy="52" r="7" fill="#7c3aed" opacity=".7"/>
+      <rect x="96" y="10" width="8" height="28" rx="4" fill="#00c8c8" opacity=".8"/>
+      <circle cx="100" cy="8" r="8" fill="#00c8c8" opacity=".9" style="animation:antBlink 2s ease-in-out infinite"/>
+      <rect x="68" y="108" width="64" height="18" rx="9" fill="url(#rg1)" opacity=".9"/>
+      <text x="100" y="121" font-family="monospace" font-size="9" fill="#fff" text-anchor="middle" letter-spacing="1">MET-AI BOT</text>
+    </svg>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+<style>
+@keyframes robFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes antBlink{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+</style>
+
+<!-- ══════════════════════ STATS ══════════════════════ -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">AI Automation</div></div>
+  <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Real-Time Monitoring</div></div>
+  <div class="stat"><div class="stat-n">99%</div><div class="stat-l">Accuracy Target</div></div>
+  <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Scalable Platform</div></div>
+</div>
+
+<!-- ══════════════════════ ABOUT ══════════════════════ -->
+<section class="about-bg" id="about" style="clip-path:polygon(0 0,100% 0,100% 92%,0 100%)">
+  <div class="sec-eyebrow">About MET-Ai Solutions</div>
+  <h2 class="sec-title">Built to <em>Revolutionize</em><br>Modern Medicine</h2>
+  <p class="sec-sub">A visionary Indian startup redefining what hospitals can achieve with the power of AI — proudly rooted in Bharat.</p>
+  <div class="about-inner">
+    <div class="about-text reveal">
+      <div class="about-quote-block">"Our mission is total automation of healthcare — from the moment a patient walks in to the moment they recover, AI handles it all."</div>
+      <p>MET-Ai Solutions (Medi Electronic Technology – Artificial Intelligence) is a startup on a bold mission: to eliminate inefficiency, human error, and delayed care from every hospital in India and beyond. We are building the intelligent nervous system that future hospitals will run on.</p>
+      <p>Our platform unifies patient intake, AI-powered diagnostics, treatment planning, medication management, remote monitoring, and hospital operations — all seamlessly automated into one ecosystem.</p>
+      <div class="about-pills">
+        <div class="a-pill"><svg class="ic3d" width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="irobot85736t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="irobot85736g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="irobot85736s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#irobot85736t)" filter="url(#irobot85736s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#irobot85736g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="22" y="26" width="20" height="16" rx="4"/><path d="M32 22v4M27 32h.01M37 32h.01M28 37h8"/><path d="M22 32h-3M42 32h3"/></g>
+</svg> AI-First</div>
+        <div class="a-pill">Made in India</div>
+        <div class="a-pill"><svg class="ic3d" width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ihospital23002t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ihospital23002g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ihospital23002s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ihospital23002t)" filter="url(#ihospital23002s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ihospital23002g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="20" y="22" width="24" height="22" rx="2"/><path d="M32 26v8M28 30h8M26 44v-6h4v6M34 44v-6h4v6"/></g>
+</svg> Hospital-Grade</div>
+        <div class="a-pill"><svg class="ic3d" width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ishield29841t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ishield29841g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ishield29841s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ishield29841t)" filter="url(#ishield29841s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ishield29841g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M32 18l12 4v8c0 8-5 13-12 16-7-3-12-8-12-16v-8l12-4z"/><path d="M27 32l4 4 6-7"/></g>
+</svg> DPDP Compliant</div>
+        <div class="a-pill"><svg class="ic3d" width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ibolt91837t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ibolt91837g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ibolt91837s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ibolt91837t)" filter="url(#ibolt91837s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ibolt91837g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M34 18l-12 16h9l-3 12 12-16h-9l3-12z"/></g>
+</svg> Real-Time</div>
+        <div class="a-pill"><svg class="ic3d" width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="iglobe25797t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="iglobe25797g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="iglobe25797s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#iglobe25797t)" filter="url(#iglobe25797s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#iglobe25797g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="32" cy="32" r="13"/><path d="M19 32h26M32 19c5 5 5 21 0 26-5-5-5-21 0-26"/></g>
+</svg> Global Vision</div>
+      </div>
+      <div class="about-ctas">
+        <a href="why-metai.html" class="a-cta solid">Why MET-Ai?</a>
+        <a href="how-it-works.html" class="a-cta outline">How It Works</a>
+        <a href="impact.html" class="a-cta outline">Our Impact</a>
+      </div>
+    </div>
+    <div class="about-metrics reveal">
+      <div class="metric-card">
+        <div class="metric-num">40%</div>
+        <div class="metric-label">Reduction in Diagnostic Errors</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">72h</div>
+        <div class="metric-label">Advance Deterioration Warning</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">3x</div>
+        <div class="metric-label">ROI in Year One</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">Zero</div>
+        <div class="metric-label">Target Medication Errors</div>
+      </div>
+    </div>
+  </div>
+  <a href="founder.html" class="founder-strip reveal">
+    <img src="ceo.jpeg" alt="Eeswar Makineni, Founder and CEO" class="founder-strip-img" onerror="this.style.display='none'">
+    <div class="founder-strip-text">
+      <div class="founder-strip-eyebrow">Leadership</div>
+      <div class="founder-strip-name">Eeswar Makineni &mdash; Founder &amp; CEO</div>
+      <p class="founder-strip-desc">Building AI-driven, fully automated healthcare for every hospital, from Amaravathi, Andhra Pradesh.</p>
+    </div>
+    <span class="founder-strip-cta">Meet the Founder <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+  </a>
+</section>
+
+<!-- ══════════════════════ SOLUTIONS ══════════════════════ -->
+<section class="sol-bg" id="solutions" style="clip-path:polygon(0 5%,100% 0,100% 95%,0 100%);margin-top:-60px;padding-top:140px">
+  <div class="sec-eyebrow" style="color:rgba(0,212,212,.8)">Our Solutions</div>
+  <h2 class="sec-title" style="color:#fff">Everything a Hospital Needs,<br><em>Automated</em></h2>
+  <p class="sec-sub" style="color:rgba(255,255,255,.6)">From triage to discharge — AI covers every stage of the patient journey.</p>
+  <div class="sol-grid">
+    <div class="sol-card reveal" onclick="location.href='sol-diagnostics.html'">
+      <div class="sol-icon-wrap"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ibrain17968t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ibrain17968g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ibrain17968s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ibrain17968t)" filter="url(#ibrain17968s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ibrain17968g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M26 20a5 5 0 0 0-5 5 5 5 0 0 0-2 9v3a4 4 0 0 0 8 0V20z"/><path d="M38 20a5 5 0 0 1 5 5 5 5 0 0 1 2 9v3a4 4 0 0 1-8 0V20z"/><path d="M32 20v24"/></g>
+</svg></div>
+      <div class="sol-title">AI Diagnostics Engine</div>
+      <p class="sol-desc">Deep learning models analyze symptoms, labs, and imaging to deliver instant accurate diagnoses — reducing errors to near zero.</p>
+      <div class="sol-link">Explore Details <span>→</span></div>
+    </div>
+    <div class="sol-card reveal d1" onclick="location.href='sol-predictive.html'">
+      <div class="sol-icon-wrap"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ichart85179t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ichart85179g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ichart85179s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ichart85179t)" filter="url(#ichart85179s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ichart85179g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M20 44V22M20 44h24M26 44V34M32 44V28M38 44V32"/></g>
+</svg></div>
+      <div class="sol-title">Predictive Health Analytics</div>
+      <p class="sol-desc">Forecast patient deterioration, disease risk, and readmission 72 hours before clinical symptoms appear.</p>
+      <div class="sol-link">Explore Details <span>→</span></div>
+    </div>
+    <div class="sol-card reveal d2" onclick="location.href='sol-automation.html'">
+      <div class="sol-icon-wrap"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="igear51199t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="igear51199g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="igear51199s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#igear51199t)" filter="url(#igear51199s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#igear51199g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="32" cy="32" r="6"/><path d="M32 20v-3M32 47v-3M44 32h3M17 32h3M40 24l2-2M22 42l2-2M40 40l2 2M22 22l2 2"/></g>
+</svg></div>
+      <div class="sol-title">Hospital Automation Suite</div>
+      <p class="sol-desc">End-to-end workflow automation — admissions, scheduling, billing, bed management — on one intelligent platform.</p>
+      <div class="sol-link">Explore Details <span>→</span></div>
+    </div>
+    <div class="sol-card reveal" onclick="location.href='sol-medication.html'">
+      <div class="sol-icon-wrap"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ipill10919t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ipill10919g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ipill10919s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ipill10919t)" filter="url(#ipill10919s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ipill10919g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="20" y="26" width="24" height="12" rx="6" transform="rotate(45 32 32)"/><path d="M27 27l10 10"/></g>
+</svg></div>
+      <div class="sol-title">Smart Medication Management</div>
+      <p class="sol-desc">AI-powered prescription validation, real-time drug interaction alerts, and automated dispensing for zero medication errors.</p>
+      <div class="sol-link">Explore Details <span>→</span></div>
+    </div>
+    <div class="sol-card reveal d1" onclick="location.href='sol-remote.html'">
+      <div class="sol-icon-wrap"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="isensor27567t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="isensor27567g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="isensor27567s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#isensor27567t)" filter="url(#isensor27567s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#isensor27567g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M24 38a8 8 0 0 1 16 0"/><path d="M20 38a12 12 0 0 1 24 0"/><circle cx="32" cy="38" r="2.5"/></g>
+</svg></div>
+      <div class="sol-title">Remote Patient Monitoring</div>
+      <p class="sol-desc">IoT-connected continuous vital monitoring from anywhere, with sub-second intelligent alerts to care teams.</p>
+      <div class="sol-link">Explore Details <span>→</span></div>
+    </div>
+    <div class="sol-card reveal d2" onclick="location.href='sol-personalized.html'">
+      <div class="sol-icon-wrap"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="idna37311t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="idna37311g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="idna37311s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#idna37311t)" filter="url(#idna37311s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#idna37311g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M24 18c0 8 16 12 16 20s-16 6-16 14"/><path d="M40 18c0 8-16 12-16 20s16 6 16 14"/><path d="M26 24h12M25 31h14M25 37h14M26 44h12"/></g>
+</svg></div>
+      <div class="sol-title">Personalised Medicine AI</div>
+      <p class="sol-desc">Genomic data, patient history, and real-time vitals combined to generate treatment pathways unique to each patient's biology.</p>
+      <div class="sol-link">Explore Details <span>→</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ VISION ══════════════════════ -->
+<section class="vis-bg" id="vision" style="clip-path:polygon(0 0,100% 5%,100% 100%,0 95%);margin-top:-60px;padding:140px 80px">
+  <div class="sec-eyebrow">Our Vision</div>
+  <h2 class="sec-title">The Roadmap to the<br><em>Future Hospital</em></h2>
+  <p class="sec-sub">A five-phase transformation from intelligent intake to the world's first fully autonomous hospital.</p>
+  <div class="vis-steps">
+    <div class="vis-step reveal">
+      <div class="vis-num">01</div>
+      <div class="vis-icon"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="iclipboard39695t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="iclipboard39695g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="iclipboard39695s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#iclipboard39695t)" filter="url(#iclipboard39695s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#iclipboard39695g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="24" y="20" width="16" height="24" rx="2"/><path d="M28 20v-2h8v2M28 32l3 3 5-6"/></g>
+</svg></div>
+      <div class="vis-step-title">AI Intake & Triage</div>
+      <p class="vis-step-desc">Automated registration, symptom collection, and intelligent routing — eliminating waiting queues.</p>
+    </div>
+    <div class="vis-step reveal d1">
+      <div class="vis-num">02</div>
+      <div class="vis-icon"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="imicroscope85924t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="imicroscope85924g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="imicroscope85924s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#imicroscope85924t)" filter="url(#imicroscope85924s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#imicroscope85924g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M24 44h18M30 40l-4-4M28 38l8-8-4-4-8 8 4 4zM34 26l4 4"/><path d="M36 40a8 8 0 0 0 4-15"/></g>
+</svg></div>
+      <div class="vis-step-title">Smart Diagnostics</div>
+      <p class="vis-step-desc">Multi-modal AI combining imaging, labs, vitals, and history for instant clinical decisions.</p>
+    </div>
+    <div class="vis-step reveal d2">
+      <div class="vis-num">03</div>
+      <div class="vis-icon"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ipill10919t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ipill10919g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ipill10919s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ipill10919t)" filter="url(#ipill10919s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ipill10919g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="20" y="26" width="24" height="12" rx="6" transform="rotate(45 32 32)"/><path d="M27 27l10 10"/></g>
+</svg></div>
+      <div class="vis-step-title">Automated Treatment</div>
+      <p class="vis-step-desc">AI-recommended, evidence-based protocols personalized to each patient's unique profile.</p>
+    </div>
+    <div class="vis-step reveal d3">
+      <div class="vis-num">04</div>
+      <div class="vis-icon"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ichart85179t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ichart85179g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ichart85179s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ichart85179t)" filter="url(#ichart85179s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ichart85179g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M20 44V22M20 44h24M26 44V34M32 44V28M38 44V32"/></g>
+</svg></div>
+      <div class="vis-step-title">Continuous Prediction</div>
+      <p class="vis-step-desc">24/7 AI surveillance predicting complications days before they manifest.</p>
+    </div>
+    <div class="vis-step reveal">
+      <div class="vis-num">05</div>
+      <div class="vis-icon"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ihospital98700t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ihospital98700g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ihospital98700s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ihospital98700t)" filter="url(#ihospital98700s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ihospital98700g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="20" y="22" width="24" height="22" rx="2"/><path d="M32 26v8M28 30h8M26 44v-6h4v6M34 44v-6h4v6"/></g>
+</svg></div>
+      <div class="vis-step-title">Autonomous Hospital</div>
+      <p class="vis-step-desc">A hospital where AI coordinates every function — from surgery support to supply chains.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ TECHNOLOGY ══════════════════════ -->
+<section class="tech-bg" id="technology" style="clip-path:polygon(0 5%,100% 0,100% 95%,0 100%);margin-top:-60px;padding-top:140px">
+  <div class="sec-eyebrow" style="color:rgba(0,212,212,.8)">Technology Stack</div>
+  <h2 class="sec-title" style="color:#fff">Powered by <em>Next-Gen</em><br>Technologies</h2>
+  <p class="sec-sub" style="color:rgba(255,255,255,.55)">Medical-grade reliability meets the most advanced AI stack available today.</p>
+  <div class="tech-grid">
+    <a class="tech-card reveal" href="tech-ml.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="irobot75305t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="irobot75305g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="irobot75305s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#irobot75305t)" filter="url(#irobot75305s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#irobot75305g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="22" y="26" width="20" height="16" rx="4"/><path d="M32 22v4M27 32h.01M37 32h.01M28 37h8"/><path d="M22 32h-3M42 32h3"/></g>
+</svg></div>
+      <div class="tech-name">Machine Learning</div>
+      <div class="tech-sub">Neural network models</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+    <a class="tech-card reveal d1" href="tech-cv.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ieye44584t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ieye44584g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ieye44584s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ieye44584t)" filter="url(#ieye44584s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ieye44584g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M18 32s5-9 14-9 14 9 14 9-5 9-14 9-14-9-14-9z"/><circle cx="32" cy="32" r="4.2"/></g>
+</svg></div>
+      <div class="tech-name">Computer Vision</div>
+      <div class="tech-sub">Medical imaging AI</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+    <a class="tech-card reveal d2" href="tech-nlp.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="idocument40923t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="idocument40923g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="idocument40923s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#idocument40923t)" filter="url(#idocument40923s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#idocument40923g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M26 18h9l7 7v21H26z"/><path d="M35 18v7h7M30 32h8M30 38h8"/></g>
+</svg></div>
+      <div class="tech-name">NLP & Voice AI</div>
+      <div class="tech-sub">Clinical documentation</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+    <a class="tech-card reveal d3" href="tech-iot.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="isensor4339t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="isensor4339g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="isensor4339s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#isensor4339t)" filter="url(#isensor4339s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#isensor4339g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M24 38a8 8 0 0 1 16 0"/><path d="M20 38a12 12 0 0 1 24 0"/><circle cx="32" cy="38" r="2.5"/></g>
+</svg></div>
+      <div class="tech-name">IoT Sensors</div>
+      <div class="tech-sub">Embedded electronics</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+    <a class="tech-card reveal" href="tech-cloud.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="icloud10388t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="icloud10388g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="icloud10388s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#icloud10388t)" filter="url(#icloud10388s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#icloud10388g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M26 40h13a6 6 0 0 0 1-12 8 8 0 0 0-15-2 6 6 0 0 0 1 14z"/></g>
+</svg></div>
+      <div class="tech-name">Cloud & Edge</div>
+      <div class="tech-sub">Real-time processing</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+    <a class="tech-card reveal d1" href="tech-hipaa.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ishield78380t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ishield78380g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ishield78380s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ishield78380t)" filter="url(#ishield78380s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ishield78380g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M32 18l12 4v8c0 8-5 13-12 16-7-3-12-8-12-16v-8l12-4z"/><path d="M27 32l4 4 6-7"/></g>
+</svg></div>
+      <div class="tech-name">HIPAA Security</div>
+      <div class="tech-sub">Medical-grade privacy</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+    <a class="tech-card reveal d2" href="tech-bio.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="idna65496t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="idna65496g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="idna65496s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#idna65496t)" filter="url(#idna65496s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#idna65496g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M24 18c0 8 16 12 16 20s-16 6-16 14"/><path d="M40 18c0 8-16 12-16 20s16 6 16 14"/><path d="M26 24h12M25 31h14M25 37h14M26 44h12"/></g>
+</svg></div>
+      <div class="tech-name">Bioinformatics</div>
+      <div class="tech-sub">Genomic data AI</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+    <a class="tech-card reveal d3" href="tech-realtime.html">
+      <div class="tech-emoji"><svg class="ic3d" width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ibolt41188t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ibolt41188g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ibolt41188s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ibolt41188t)" filter="url(#ibolt41188s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ibolt41188g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M34 18l-12 16h9l-3 12 12-16h-9l3-12z"/></g>
+</svg></div>
+      <div class="tech-name">Real-Time Engine</div>
+      <div class="tech-sub">Sub-second decisions</div>
+      <div class="tech-arrow">Explore →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════ WHY US STRIP ══════════════════════ -->
+<div class="why-strip" style="clip-path:polygon(0 0,100% 5%,100% 100%,0 95%);margin-top:-60px">
+  <div class="sec-eyebrow" style="color:rgba(0,212,212,.8);position:relative;z-index:1">Why Choose MET-Ai</div>
+  <h2 class="sec-title" style="color:#fff;position:relative;z-index:1">The Intelligent Choice<br>for <em>Every Hospital</em></h2>
+  <div class="why-grid">
+    <div class="why-card reveal"><div class="why-num">01</div><div class="why-icon"><svg class="ic3d" width="44" height="44" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="itarget24957t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="itarget24957g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="itarget24957s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#itarget24957t)" filter="url(#itarget24957s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#itarget24957g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="32" cy="32" r="12"/><circle cx="32" cy="32" r="6"/><circle cx="32" cy="32" r="1.5" fill="#fff"/></g>
+</svg></div><div class="why-title">Built for Accuracy</div><p class="why-desc">Our AI models achieve 98%+ diagnostic accuracy — trained on millions of anonymised clinical cases and continuously improving with every patient interaction.</p></div>
+    <div class="why-card reveal d1"><div class="why-num">02</div><div class="why-icon"><svg class="ic3d" width="44" height="44" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ibolt16018t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ibolt16018g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ibolt16018s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ibolt16018t)" filter="url(#ibolt16018s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ibolt16018g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M34 18l-12 16h9l-3 12 12-16h-9l3-12z"/></g>
+</svg></div><div class="why-title">Real-Time Intelligence</div><p class="why-desc">Every insight, alert, and recommendation is delivered in under 2 seconds. Because in healthcare, milliseconds can be the difference between life and death.</p></div>
+    <div class="why-card reveal d2"><div class="why-num">03</div><div class="why-icon"><svg class="ic3d" width="44" height="44" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="iglobe94023t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="iglobe94023g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="iglobe94023s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#iglobe94023t)" filter="url(#iglobe94023s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#iglobe94023g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="32" cy="32" r="13"/><path d="M19 32h26M32 19c5 5 5 21 0 26-5-5-5-21 0-26"/></g>
+</svg></div><div class="why-title">Made for Bharat</div><p class="why-desc">Built from the ground up for Indian healthcare — multilingual, DPDP compliant, low-bandwidth optimised, and priced for Indian hospital economics.</p></div>
+    <div class="why-card reveal"><div class="why-num">04</div><div class="why-icon"><svg class="ic3d" width="44" height="44" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="inetwork86615t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="inetwork86615g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="inetwork86615s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#inetwork86615t)" filter="url(#inetwork86615s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#inetwork86615g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="32" cy="20" r="3"/><circle cx="22" cy="42" r="3"/><circle cx="42" cy="42" r="3"/><path d="M32 23l-8 16M32 23l8 16M25 42h14"/></g>
+</svg></div><div class="why-title">Seamless Integration</div><p class="why-desc">Integrates with every major EMR, PACS, and HIS via HL7 FHIR — without disrupting existing workflows. Go live in weeks, not years.</p></div>
+    <div class="why-card reveal d1"><div class="why-num">05</div><div class="why-icon"><svg class="ic3d" width="44" height="44" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ichart60009t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ichart60009g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ichart60009s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ichart60009t)" filter="url(#ichart60009s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ichart60009g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M20 44V22M20 44h24M26 44V34M32 44V28M38 44V32"/></g>
+</svg></div><div class="why-title">Proven ROI</div><p class="why-desc">Hospitals deploying MET-Ai achieve 3x ROI in Year 1 through reduced errors, shorter stays, automated workflows, and revenue cycle improvement.</p></div>
+    <div class="why-card reveal d2"><div class="why-num">06</div><div class="why-icon"><svg class="ic3d" width="44" height="44" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="ileaf86161t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="ileaf86161g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="ileaf86161s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#ileaf86161t)" filter="url(#ileaf86161s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#ileaf86161g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M24 40c0-10 8-18 20-18 0 12-8 20-20 18zM24 40l8-8"/></g>
+</svg></div><div class="why-title">Continuously Learning</div><p class="why-desc">Our platform learns from every patient interaction, becoming smarter and more precise for your specific patient population over time.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ CONTACT ══════════════════════ -->
+<section class="contact-bg" id="contact" style="clip-path:polygon(0 5%,100% 0,100% 100%,0 100%);margin-top:-60px;padding-top:140px">
+  <div class="sec-eyebrow">Contact Us</div>
+  <h2 class="sec-title">Let's Build the Future<br><em>Together</em></h2>
+  <p class="sec-sub">Connect with the MET-Ai team directly, or send us a message and we'll respond within 24 hours.</p>
+
+  <!-- ── CONTACT CARDS ROW ── -->
+  <div class="contact-cards-row">
+    <a class="contact-card" href="mailto:admin@metaisolutions.com">
+      <div class="contact-card-icon" style="background:linear-gradient(135deg,rgba(0,200,200,.15),rgba(0,200,200,.05));border:1.5px solid rgba(0,200,200,.3)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00c8c8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </div>
+      <div class="contact-card-label">Email Us</div>
+      <div class="contact-card-value">admin@metaisolutions.com</div>
+      <div class="contact-card-action">Open Mail App →</div>
+    </a>
+    <a class="contact-card" href="tel:+910000000000">
+      <div class="contact-card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(245,158,11,.05));border:1.5px solid rgba(245,158,11,.3)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div class="contact-card-label">Call Us</div>
+      <div class="contact-card-value">+91 XXXXX XXXXX</div>
+      <div class="contact-card-action">Open Dialler →</div>
+    </a>
+    <a class="contact-card" href="https://wa.me/+910000000000?text=Hello%20MET-Ai%20Solutions!%20I%20would%20like%20to%20know%20more%20about%20your%20healthcare%20AI%20solutions." target="_blank" rel="noopener">
+      <div class="contact-card-icon" style="background:linear-gradient(135deg,rgba(37,211,102,.15),rgba(37,211,102,.05));border:1.5px solid rgba(37,211,102,.3)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25d366" width="26" height="26"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </div>
+      <div class="contact-card-label">WhatsApp</div>
+      <div class="contact-card-value">Chat Instantly</div>
+      <div class="contact-card-action">Open WhatsApp →</div>
+    </a>
+    <div class="contact-card" style="cursor:default">
+      <div class="contact-card-icon" style="background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(124,58,237,.05));border:1.5px solid rgba(124,58,237,.3)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="contact-card-label">Headquarters</div>
+      <div class="contact-card-value">Amaravathi, Andhra Pradesh</div>
+      <div class="contact-card-action">India &nbsp;&middot;&nbsp; Worldwide</div>
+    </div>
+  </div>
+
+  <!-- ── SOCIAL ROW ── -->
+  <div class="contact-social-strip reveal">
+    <span class="social-strip-label">Also find us on</span>
+    <a class="soc-pill" href="https://www.linkedin.com/in/met-ai-solutions-a220b2404?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0077b5" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+    <a class="soc-pill" href="https://makinenieeswar.github.io/websites/" target="_blank" rel="noopener">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00c8c8" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Portfolio
+    </a>
+    <a class="soc-pill" href="YOUR_X_LINK_HERE" target="_blank" rel="noopener">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0a0f2e" width="16" height="16"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      X (Twitter)
+    </a>
+  </div>
+
+  <!-- ── MAIN TWO-COLUMN: MAP + FORM ── -->
+  <div class="contact-main-grid">
+
+    <!-- LEFT: Map + Info -->
+    <div class="contact-left-col reveal">
+      <div class="contact-info-box">
+        <h3 class="cinfo-title">Our Location</h3>
+        <p class="cinfo-sub">MET-Ai Solutions is headquartered in <strong>Amaravathi, Andhra Pradesh, India</strong> — building the future of healthcare from the heart of Bharat.</p>
+        <div class="cinfo-detail">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Amaravathi, Andhra Pradesh – 522 020, India</span>
+        </div>
+        <div class="cinfo-detail">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00c8c8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Sat &nbsp;|&nbsp; 9:00 AM – 6:00 PM IST</span>
+        </div>
+        <div class="cinfo-detail">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>admin@metaisolutions.com</span>
+        </div>
+      </div>
+
+      <!-- Google Maps — Amaravathi, Andhra Pradesh -->
+      <div class="map-container reveal">
+        <div class="map-header">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>MET-Ai Solutions — Amaravathi, Andhra Pradesh</span>
+          <a href="https://maps.google.com/?q=Amaravathi,Andhra+Pradesh,India" target="_blank" rel="noopener" class="map-open-btn">Open in Maps ↗</a>
+        </div>
+        <div class="map-frame-wrap">
+          <iframe
+            title="MET-Ai Solutions — Amaravathi, Andhra Pradesh, India"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61368.2!2d80.3272!3d16.5731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35f0a2a7d81943%3A0x6f3c77a42707b1c3!2sAmaravati%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1720000000000!5m2!1sen!2sin"
+            width="100%"
+            height="100%"
+            style="border:0;display:block"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Contact Form -->
+    <div class="form-card reveal">
+      <div class="form-card-header">
+        <div class="form-card-icon"><svg class="ic3d" width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="imail82610t" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8c8"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="imail82610g" x1="32" y1="4" x2="32" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="imail82610s" x="-20%" y="-10%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7c3aed" flood-opacity=".35"/></filter>
+</defs>
+<rect x="6" y="5" width="52" height="52" rx="15" fill="url(#imail82610t)" filter="url(#imail82610s)"/>
+<rect x="6" y="5" width="52" height="26" rx="15" fill="url(#imail82610g)"/>
+<rect x="6.8" y="5.8" width="50.4" height="50.4" rx="14.2" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>
+<g stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="20" y="24" width="24" height="16" rx="2"/><path d="M20 26l12 8 12-8"/></g>
+</svg></div>
+        <div>
+          <h3 class="form-card-title">Send Us a Message</h3>
+          <p class="form-card-sub">Your message goes directly to Eeswar. We reply within 24 hours.</p>
+        </div>
+      </div>
+
+      <!-- Progress indicator -->
+      <div class="form-progress" id="formProgress">
+        <div class="fp-step active" id="fpStep1">
+          <div class="fp-dot">1</div>
+          <span>Your Details</span>
+        </div>
+        <div class="fp-line"></div>
+        <div class="fp-step" id="fpStep2">
+          <div class="fp-dot">2</div>
+          <span>Your Needs</span>
+        </div>
+        <div class="fp-line"></div>
+        <div class="fp-step" id="fpStep3">
+          <div class="fp-dot">3</div>
+          <span>Send</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: Personal Info -->
+      <div class="form-step" id="step1">
+        <div class="f-row">
+          <div class="f-group">
+            <label for="fname">First Name <span class="req">*</span></label>
+            <input type="text" id="fname" name="fname" placeholder="e.g. Rahul" autocomplete="given-name" required>
+          </div>
+          <div class="f-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lname" placeholder="e.g. Sharma" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="f-group">
+          <label for="femail">Email Address <span class="req">*</span></label>
+          <input type="email" id="femail" name="femail" placeholder="you@hospital.com" autocomplete="email" required>
+        </div>
+        <div class="f-row">
+          <div class="f-group">
+            <label for="fphone">Phone Number</label>
+            <input type="tel" id="fphone" name="fphone" placeholder="+91 98765 43210" autocomplete="tel">
+          </div>
+          <div class="f-group">
+            <label for="forg">Organization</label>
+            <input type="text" id="forg" name="forg" placeholder="Hospital / Clinic / Company" autocomplete="organization">
+          </div>
+        </div>
+        <button class="f-next-btn" onclick="goStep(2)">Next: Tell Us Your Needs →</button>
+      </div>
+
+      <!-- STEP 2: Needs -->
+      <div class="form-step hidden" id="step2">
+        <div class="f-group">
+          <label for="finterest">I'm Interested In</label>
+          <select id="finterest" name="finterest">
+            <option value="">Select a solution or topic...</option>
+            <optgroup label="Solutions">
+              <option>AI Diagnostics Engine</option>
+              <option>Predictive Health Analytics</option>
+              <option>Hospital Automation Suite</option>
+              <option>Smart Medication Management</option>
+              <option>Remote Patient Monitoring</option>
+              <option>Personalised Medicine AI</option>
+            </optgroup>
+            <optgroup label="Business">
+              <option>Full Platform Partnership</option>
+              <option>Investment / Funding</option>
+              <option>Pilot Program</option>
+              <option>Technical Demo / Walkthrough</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option>Careers / Joining MET-Ai</option>
+              <option>General Inquiry</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="f-group">
+          <label for="fmsg">Your Message <span class="req">*</span></label>
+          <textarea id="fmsg" name="fmsg" placeholder="Tell us about your hospital's needs, the challenges you're facing, or how MET-Ai can help you..." rows="5" required></textarea>
+          <div class="char-count" id="charCount">0 / 500 characters</div>
+        </div>
+        <div class="f-step2-btns">
+          <button class="f-back-btn" onclick="goStep(1)">← Back</button>
+          <button class="f-next-btn" onclick="goStep(3)">Review &amp; Send →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Review + Submit -->
+      <div class="form-step hidden" id="step3">
+        <div class="review-box" id="reviewBox"></div>
+        <div class="privacy-note">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00c8c8" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Your data is encrypted and stored securely. We never share your information.
+        </div>
+        <div class="f-step2-btns">
+          <button class="f-back-btn" onclick="goStep(2)">← Edit</button>
+          <button class="f-submit-btn" id="fsubmit" onclick="submitForm()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send Message to MET-Ai
+          </button>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="form-success hidden" id="formSuccess">
+        <div class="success-icon"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></div>
+        <h4>Message Sent Successfully!</h4>
+        <p>Thank you for reaching out. Eeswar will personally review your message and respond within 24 hours.</p>
+        <div class="success-links">
+          <a href="https://wa.me/+910000000000?text=Hello!%20I%20just%20sent%20a%20message%20via%20your%20website." target="_blank" rel="noopener" class="success-link whatsapp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25d366" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Also chat on WhatsApp
+          </a>
+          <button class="success-link reset" onclick="resetForm()">Send Another Message</button>
+        </div>
+      </div>
+
+      <div class="f-msg" id="fmsgStatus"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer style="clip-path:polygon(0 4%,100% 0,100% 100%,0 100%);margin-top:-40px">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-brand-logo">
+        <img src="logo1.png" alt="MET-Ai Logo">
+        <div>
+          <div class="footer-brand-name">MET-<em>Ai</em> Solutions</div>
+          <div class="footer-brand-sub">Healthcare Innovation Through AI</div>
+        </div>
+      </div>
+      <p>Medi Electronic Technology – Artificial Intelligence Solutions. Building the intelligent nervous system of tomorrow's hospital. Founded in Amaravathi, Andhra Pradesh, India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About MET-Ai</a></li>
+        <li><a href="why-metai.html">Why MET-Ai</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="impact.html">Impact &amp; Outcomes</a></li>
+        <li><a href="industries.html">Industries</a></li>
+        <li><a href="careers.html">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="sol-diagnostics.html">AI Diagnostics</a></li>
+        <li><a href="sol-predictive.html">Predictive Analytics</a></li>
+        <li><a href="sol-automation.html">Hospital Automation</a></li>
+        <li><a href="sol-medication.html">Medication Management</a></li>
+        <li><a href="sol-remote.html">Remote Monitoring</a></li>
+        <li><a href="sol-personalized.html">Personalized Medicine</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Technology</h4>
+      <ul>
+        <li><a href="tech-ml.html">Machine Learning</a></li>
+        <li><a href="tech-cv.html">Computer Vision</a></li>
+        <li><a href="tech-nlp.html">NLP &amp; Voice AI</a></li>
+        <li><a href="tech-iot.html">IoT Sensors</a></li>
+        <li><a href="tech-cloud.html">Cloud &amp; Edge</a></li>
+        <li><a href="tech-hipaa.html">HIPAA Security</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#contact">Contact Us</a></li>
+        <li><a href="mailto:admin@metaisolutions.com">Email Us</a></li>
+        <li><a href="https://wa.me/+910000000000?text=Hello%20MET-Ai!" target="_blank">WhatsApp</a></li>
+        <li><a href="https://www.linkedin.com/in/met-ai-solutions-a220b2404" target="_blank">LinkedIn</a></li>
+        <li><a href="https://makinenieeswar.github.io/websites/" target="_blank">Portfolio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 MET-Ai Solutions. All rights reserved. Founded by <span class="highlight">Eeswar Makineni</span>.</span>
+    <span>Made in India · Medi Electronic Technology – AI Solutions</span>
+  </div>
+</footer>
+
+<!-- ══════════════════════ CHATBOT ══════════════════════ -->
+
+<!-- Chat Toggle Button -->
+<button id="chatBtn" aria-label="Open MediBot chat assistant">
+  <span id="chatBadge" aria-label="1 new message">1</span>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="26" height="26" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<!-- Chat Panel -->
+<div id="chatPanel" role="dialog" aria-label="MediBot chat assistant" aria-hidden="true">
+  <div class="ch-header">
+    <div class="ch-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="22" height="22"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/></svg></div>
+    <div class="ch-info">
+      <div class="ch-name">MediBot</div>
+      <div class="ch-status">
+        <span class="ch-dot" aria-hidden="true"></span>
+        Online · AI Assistant
+      </div>
+    </div>
+    <button class="ch-close" onclick="closeChat()" aria-label="Close chat"></button>
+  </div>
+  <div class="ch-messages" id="chMessages" aria-live="polite" aria-label="Chat messages"></div>
+  <div class="ch-quickreplies" id="chQuick" aria-label="Quick reply options"></div>
+  <div class="ch-inputrow">
+    <input
+      class="ch-input"
+      id="chInput"
+      type="text"
+      placeholder="Ask about MET-Ai..."
+      autocomplete="off"
+      aria-label="Type your message"
+    >
+    <button class="ch-send" id="chSendBtn" onclick="chatSend()" aria-label="Send message">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════ SCRIPTS ══════════════════════ -->
+<script>
+/* ─── Custom Cursor ─── */
+(function(){
+  var c=document.getElementById('cur'),r=document.getElementById('cur2');
+  if(!c||!r)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+  (function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(anim);})();
+  document.querySelectorAll('a,button').forEach(function(el){
+    el.addEventListener('mouseenter',function(){c.style.transform='translate(-50%,-50%) scale(2.2)';r.style.width='56px';r.style.height='56px';});
+    el.addEventListener('mouseleave',function(){c.style.transform='translate(-50%,-50%) scale(1)';r.style.width='36px';r.style.height='36px';});
+  });
+})();
+
+/* ─── Nav scroll ─── */
+window.addEventListener('scroll',function(){
+  var nav=document.getElementById('navbar');
+  if(nav) nav.classList.toggle('scrolled',window.scrollY>40);
+});
+
+/* ─── Reveal on scroll ─── */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}
+    });
+  },{threshold:0.08});
+  els.forEach(function(el){obs.observe(el);});
+})();
+
+/* ─── Logo overlay ─── */
+function openLogo(){
+  var ov=document.getElementById('logoOv');
+  if(ov){ov.classList.add('on');document.body.style.overflow='hidden';}
+}
+function closeLogo(){
+  var ov=document.getElementById('logoOv');
+  if(ov){ov.classList.remove('on');document.body.style.overflow='';}
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLogo();}});
+
+/* ─── No-inspect protection ─── */
+document.addEventListener('contextmenu',function(e){e.preventDefault();});
+document.addEventListener('keydown',function(e){
+  if(e.key==='F12'){e.preventDefault();return false;}
+  if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['I','J','C'].indexOf(e.key.toUpperCase())>-1){e.preventDefault();return false;}
+  if((e.ctrlKey||e.metaKey)&&(e.key.toLowerCase()==='u'||e.key.toLowerCase()==='s')){e.preventDefault();return false;}
+});
+(function devBlock(){
+  setInterval(function(){
+    if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160){
+      document.body.style.filter='blur(20px)';document.body.style.pointerEvents='none';
+    }else{
+      document.body.style.filter='';document.body.style.pointerEvents='';
+    }
+  },1200);
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   MET-Ai Contact Form — Submission Methods
+   ─────────────────────────────────────────
+   Three methods are tried in order. The form only needs ONE
+   configured to work; the others are optional fallbacks.
+
+   METHOD 1 — Google Sheets (via Apps Script Web App) — RECOMMENDED
+   ──────────────────────────────────────────────────────────────
+   1. Open your Google Sheet. Row 1 headers:
+      Timestamp | First Name | Last Name | Email | Phone | Organization | Interest | Message
+   2. Extensions → Apps Script → paste the code from google-apps-script.gs
+   3. Deploy → New deployment → Web app
+      Execute as: Me | Who has access: Anyone → Deploy → authorize
+   4. Copy the Web app URL (ends in /exec) and paste below as
+      GOOGLE_SHEETS_URL.
+
+   METHOD 2 — EmailJS (free, ~200 emails/month)
+   ──────────────────────────────────────────────
+   1. https://www.emailjs.com → sign up → add an email service
+   2. Create a template using: {{from_name}}, {{from_email}}, {{phone}},
+      {{organization}}, {{interest}}, {{message}}, {{timestamp}}
+   3. Paste PUBLIC KEY, SERVICE ID, TEMPLATE ID below.
+
+   METHOD 3 — Generic webhook (Zoho Flow, Make, Zapier, etc.)
+   ──────────────────────────────────────────────
+   Paste any webhook URL that accepts a JSON POST below.
+══════════════════════════════════════════════════════════════ */
+
+/* ── Google Sheets Web App URL (paste the /exec URL here) ── */
+var GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwSkNye44xw1qNAS9tgoCo088sbtEuW1D22kcjMseoSwDVEKOSeQXYKPHEaQEqBdXtFsA/exec';
+
+/* ── EmailJS credentials (fill these in) ── */
+var EMAILJS_PUBLIC_KEY  = 'YOUR_EMAILJS_PUBLIC_KEY';
+var EMAILJS_SERVICE_ID  = 'YOUR_EMAILJS_SERVICE_ID';
+var EMAILJS_TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';
+
+/* ── Zoho Flow Webhook (optional — if you want Sheet storage too) ── */
+var ZOHO_WEBHOOK_URL = 'YOUR_ZOHO_FLOW_WEBHOOK_URL';
+
+/* ── Your Zoho email (for display/fallback) ── */
+var ZOHO_EMAIL = 'admin@metaisolutions.com';
+
+var currentStep = 1;
+
+function goStep(n) {
+  if (n > currentStep) {
+    if (currentStep === 1) {
+      var fn = ((document.getElementById('fname')||{}).value||'').trim();
+      var em = ((document.getElementById('femail')||{}).value||'').trim();
+      if (!fn) { showFErr('fname','Please enter your first name'); return; }
+      if (!em) { showFErr('femail','Please enter your email address'); return; }
+      if (!/\S+@\S+\.\S+/.test(em)) { showFErr('femail','Please enter a valid email (e.g. you@hospital.com)'); return; }
+    }
+    if (currentStep === 2) {
+      var ms = ((document.getElementById('fmsg')||{}).value||'').trim();
+      if (!ms) { showFErr('fmsg','Please write a short message for Eeswar'); return; }
+      buildReview();
+    }
+  }
+  var old = document.getElementById('step'+currentStep);
+  var nxt = document.getElementById('step'+n);
+  if (old) old.classList.add('hidden');
+  if (nxt) nxt.classList.remove('hidden');
+  currentStep = n;
+  updateFProg();
+  var fc = document.querySelector('.form-card');
+  if (fc) setTimeout(function(){ fc.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 50);
+}
+
+function showFErr(id, msg) {
+  var el = document.getElementById(id);
+  var st = document.getElementById('fmsgStatus');
+  if (el) { el.style.borderColor='#ef4444'; el.focus(); el.addEventListener('input',function(){ el.style.borderColor=''; if(st)st.className='f-msg'; },{once:true}); }
+ if (st) { st.className='f-msg err'; st.textContent=msg; }
+}
+
+function updateFProg() {
+  for (var i=1; i<=3; i++) {
+    var s=document.getElementById('fpStep'+i);
+    var ls=document.querySelectorAll('.fp-line');
+    if (!s) continue;
+    s.classList.remove('active','done');
+    if (i===currentStep) s.classList.add('active');
+    else if (i<currentStep) s.classList.add('done');
+    if (ls[i-1]) ls[i-1].classList.toggle('done', i<currentStep);
+  }
+}
+
+function buildReview() {
+  var box = document.getElementById('reviewBox');
+  if (!box) return;
+  var g = function(id){ return ((document.getElementById(id)||{}).value||'').trim(); };
+  var rows = [
+    ['Name',(g('fname')+' '+g('lname')).trim()||'—'],
+    ['Email',g('femail')||'—'],['Phone',g('fphone')||'—'],
+    ['Organization',g('forg')||'—'],['Interest',g('finterest')||'Not selected'],
+    ['Message',g('fmsg')||'—']
+  ];
+  box.innerHTML = rows.map(function(r){
+    return '<div class="review-row"><span class="review-key">'+r[0]+'</span><span class="review-val">'+String(r[1]).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span></div>';
+  }).join('');
+}
+
+function submitForm() {
+  var btn = document.getElementById('fsubmit');
+  var st  = document.getElementById('fmsgStatus');
+  var g   = function(id){ return ((document.getElementById(id)||{}).value||'').trim(); };
+
+  if (btn) { btn.disabled=true; btn.innerHTML='Sending...'; }
+  if (st)  { st.className='f-msg'; }
+
+  var ts    = new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+  var fname = g('fname'), lname = g('lname');
+  var email = g('femail'), phone = g('fphone');
+  var org   = g('forg'),   interest = g('finterest'), msg = g('fmsg');
+
+  /* ── Method 1: Google Sheets (Apps Script Web App) ── */
+  function sendViaGoogleSheets() {
+    return new Promise(function(resolve, reject) {
+      if (!GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
+        reject(new Error('Google Sheets not configured'));
+        return;
+      }
+      fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors', /* Apps Script web apps don't return CORS headers;
+                             no-cors means we can't read the response, but
+                             the write to the Sheet still succeeds. */
+        headers: {'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify({
+          ts:ts, fname:fname, lname:lname,
+          email:email, phone:phone, org:org,
+          interest:interest, msg:msg
+        })
+      }).then(function(){ resolve(); }).catch(reject);
+    });
+  }
+
+  /* ── Method 1: EmailJS → Zoho Mail ── */
+  function sendViaEmailJS() {
+    return new Promise(function(resolve, reject) {
+      if (!window.emailjs || EMAILJS_PUBLIC_KEY === 'YOUR_EMAILJS_PUBLIC_KEY') {
+        reject(new Error('EmailJS not configured'));
+        return;
+      }
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name:    fname + ' ' + lname,
+        from_email:   email,
+        phone:        phone || '—',
+        organization: org  || '—',
+        interest:     interest || '—',
+        message:      msg,
+        timestamp:    ts,
+        reply_to:     email
+      }).then(resolve).catch(reject);
+    });
+  }
+
+  /* ── Method 2: Zoho Flow Webhook ── */
+  function sendViaWebhook() {
+    return new Promise(function(resolve, reject) {
+      if (!ZOHO_WEBHOOK_URL || ZOHO_WEBHOOK_URL === 'YOUR_ZOHO_FLOW_WEBHOOK_URL') {
+        reject(new Error('Webhook not configured'));
+        return;
+      }
+      fetch(ZOHO_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          ts:ts, fname:fname, lname:lname,
+          email:email, phone:phone, org:org,
+          interest:interest, msg:msg
+        })
+      }).then(resolve).catch(reject);
+    });
+  }
+
+  /* ── Try each configured method in order: Sheets -> EmailJS -> Webhook ── */
+  function tryNext(methods, i) {
+    if (i >= methods.length) {
+      if (st) {
+        st.className = 'f-msg err';
+        st.textContent = 'Could not send automatically. Please email ' + ZOHO_EMAIL + ' directly or use WhatsApp below.';
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Try Again';
+      }
+      return;
+    }
+    methods[i]().then(showFormSuccess).catch(function(){ tryNext(methods, i + 1); });
+  }
+
+  tryNext([sendViaGoogleSheets, sendViaEmailJS, sendViaWebhook], 0);
+}
+
+function showFormSuccess() {
+  var s3=document.getElementById('step3');
+  var sc=document.getElementById('formSuccess');
+  var pr=document.getElementById('formProgress');
+  if(s3)s3.classList.add('hidden');
+  if(sc)sc.classList.remove('hidden');
+  if(pr)pr.style.display='none';
+}
+
+function resetForm() {
+  ['fname','lname','femail','fphone','forg','finterest','fmsg'].forEach(function(id){ var e=document.getElementById(id);if(e)e.value=''; });
+  var sc=document.getElementById('formSuccess'),pr=document.getElementById('formProgress'),st=document.getElementById('fmsgStatus'),btn=document.getElementById('fsubmit');
+  if(sc)sc.classList.add('hidden');
+  if(pr)pr.style.display='flex';
+  if(st)st.className='f-msg';
+  if(btn){btn.disabled=false;btn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message to MET-Ai';}
+  currentStep=1;
+  for(var i=1;i<=3;i++){var s=document.getElementById('step'+i);if(s)s.classList.toggle('hidden',i!==1);}
+  updateFProg();
+}
+
+/* Character counter */
+document.addEventListener('DOMContentLoaded',function(){
+  var m=document.getElementById('fmsg'),c=document.getElementById('charCount');
+  if(m&&c){m.addEventListener('input',function(){var l=m.value.length;c.textContent=l+' / 500 characters';c.style.color=l>450?'#ef4444':'#64748b';if(l>500)m.value=m.value.substring(0,500);});}
+});
+
+/* ══════════════════════════════════════════════════════
+   MEDIBOT — FULLY WORKING CHATBOT ENGINE
+══════════════════════════════════════════════════════ */
+var chatIsOpen = false;
+var chatThinking = false;
+var chatHistory = [];
+
+/* Knowledge base */
+var KB = {
+  greeting: {
+    triggers: ['hi','hello','hey','hii','helo','hiya','namaste','good morning','good evening','good afternoon','howdy','sup','greetings'],
+ reply: "Hello! Welcome to <strong>MET-Ai Solutions</strong>!<br><br>I'm <strong>MediBot</strong>, your AI guide to our healthcare intelligence platform. I can tell you about our solutions, technology, team, and how to get in touch.<br><br>What would you like to explore?",
+    quick: ['Our Solutions','Technology Stack','Meet the Founder','Contact Us']
+  },
+  solutions: {
+    triggers: ['solution','product','platform','offer','service','what do you','what does','provide','build'],
+ reply: "MET-Ai offers <strong>6 core AI solutions</strong> for hospitals:<br><br>1. <strong>AI Diagnostics Engine</strong> — instant accurate diagnosis<br>2. <strong>Predictive Health Analytics</strong> — 72hr advance warning<br>3. <strong>Hospital Automation Suite</strong> — end-to-end workflow automation<br>4. <strong>Smart Medication Management</strong> — zero medication errors<br>5. <strong>Remote Patient Monitoring</strong> — 24/7 IoT-powered monitoring<br>6. <strong>Personalised Medicine AI</strong> — genomic treatment planning<br><br>Click any card on this page to explore each solution in detail!",
+    quick: ['AI Diagnostics','Predictive Analytics','Hospital Automation','Remote Monitoring']
+  },
+  diagnostics: {
+    triggers: ['diagnos','imaging','xray','x-ray','mri','ct scan','radiology','lab result','scan','pathology'],
+ reply: "Our <strong>AI Diagnostics Engine</strong> analyzes X-rays, MRIs, CT scans, lab results, and patient symptoms simultaneously — delivering a ranked differential diagnosis in under <strong>2 seconds</strong> with <strong>98%+ accuracy</strong>.<br><br>It never misses a critical finding and generates structured clinical reports automatically.",
+    quick: ['See Diagnostics Page','Other Solutions','Contact Us']
+  },
+  predictive: {
+    triggers: ['predict','deteriorat','early warning','risk score','readmission','sepsis','cardiac arrest'],
+ reply: "Our <strong>Predictive Health Analytics</strong> platform calculates a personalized AI risk score for every patient — detecting deterioration <strong>72 hours before</strong> clinical symptoms appear.<br><br>It predicts sepsis, cardiac arrest, readmission risk, and post-surgical complications with 89% accuracy.",
+    quick: ['See Predictive Analytics Page','Other Solutions','Contact Us']
+  },
+  automation: {
+    triggers: ['automat','workflow','billing','admission','scheduling','discharge','bed management','hospital management'],
+ reply: "Our <strong>Hospital Automation Suite</strong> replaces disconnected hospital management systems with one intelligent AI platform — automating admissions, scheduling, bed management, billing, and discharge planning.<br><br>Hospitals save <strong>80% admin time</strong> and achieve <strong>3x throughput</strong>.",
+    quick: ['See Automation Page','Other Solutions','Contact Us']
+  },
+  medication: {
+    triggers: ['medication','drug','prescription','pharmacy','dispens','pill','dose','dosage'],
+ reply: "Our <strong>Smart Medication Management</strong> system intercepts errors at every stage — prescribing, dispensing, and administration.<br><br>It checks every prescription against allergies, drug interactions, renal function, and genomic metabolism in milliseconds. Target: <strong>zero medication errors</strong>.",
+    quick: ['See Medication Page','Other Solutions','Contact Us']
+  },
+  remote: {
+    triggers: ['remote','iot','monitor','wearable','sensor','vital','home care','hospital at home'],
+ reply: "Our <strong>Remote Patient Monitoring</strong> platform connects 500+ device types — bedside monitors, wearables, implantables — into one AI-powered dashboard.<br><br>Alerts reach clinicians in <strong>under 1 second</strong>. Patients can be safely monitored from home after discharge.",
+    quick: ['See Monitoring Page','Other Solutions','Contact Us']
+  },
+  personalized: {
+    triggers: ['personali','genomic','genome','precision medicine','genetic','dna'],
+ reply: "Our <strong>Personalised Medicine AI</strong> combines genomic data, patient history, lifestyle, and real-time vitals to generate treatment pathways designed specifically for each patient's unique biology — achieving <strong>92% treatment match accuracy</strong>.",
+    quick: ['See Personalized Medicine Page','Other Solutions','Contact Us']
+  },
+  technology: {
+    triggers: ['tech','technolog','machine learning','deep learning','nlp','voice ai','cloud','edge','iot sensor','hipaa','bioinformatic','real.time engine','how built','stack'],
+ reply: "MET-Ai is powered by <strong>8 cutting-edge technologies</strong>:<br><br>Machine Learning · Computer Vision · NLP & Voice AI · IoT Sensors · Cloud & Edge · HIPAA Security · Bioinformatics · Real-Time Engine<br><br>Click any technology card on this page for a complete deep-dive!",
+    quick: ['Machine Learning','Computer Vision','IoT Sensors','HIPAA Security']
+  },
+  founder: {
+    triggers: ['founder','ceo','eeswar','makineni','team','who','leadership','who made','who built','who is','about team'],
+ reply: "<strong>Eeswar Makineni</strong> is the Founder & CEO of MET-Ai Solutions.<br><br>He founded MET-Ai with one mission: to make AI-driven, fully automated healthcare a reality for every hospital in India and globally. His work is driven by the belief that technology must eliminate the gap between patients and perfect care.<br><br>Visit his portfolio to connect directly!",
+    quick: ['View Founder Profile','Connect on LinkedIn','Contact Eeswar']
+  },
+  contact: {
+    triggers: ['contact','reach','email','phone','call','whatsapp','message','talk','connect','get in touch','enquir'],
+ reply: "You can reach MET-Ai Solutions through multiple channels:<br><br><strong>Email:</strong> admin@metaisolutions.com<br><strong>WhatsApp:</strong> See the Contact section below<br><strong>LinkedIn:</strong> MET-Ai Solutions profile<br><strong>Portfolio:</strong> makinenieeswar.github.io/websites<br><br>Or use the contact form on this page — we reply within <strong>24 hours</strong>!",
+    quick: ['Go to Contact Section','WhatsApp Us','Email Eeswar']
+  },
+  about: {
+    triggers: ['about','company','startup','what is met','what is metai','medi electronic','mission','vision','bharat','india'],
+ reply: "<strong>MET-Ai Solutions</strong> (Medi Electronic Technology – Artificial Intelligence Solutions) is an Indian healthcare AI startup founded by Eeswar Makineni.<br><br>Our mission: <em>the total automation of hospital care</em> — from the moment a patient walks in to the moment they recover.<br><br>Built for India, and designed for the world.",
+    quick: ['Our Solutions','Why MET-Ai','Meet the Founder','Contact Us']
+  },
+  impact: {
+    triggers: ['impact','result','roi','return','benefit','outcome','better','improve','save','why choose','advantage'],
+ reply: "MET-Ai delivers <strong>measurable, evidence-based results</strong>:<br><br>40% reduction in diagnostic errors<br>72-hour advance deterioration warning<br>80% less admin time for clinicians<br>30% readmission rate reduction<br>3x ROI in Year 1<br>Zero medication error target<br>95% bed utilization<br><br>Every metric is evidence-based.",
+    quick: ['See Impact Page','Why MET-Ai','Contact Us']
+  },
+  how: {
+    triggers: ['how it work','how does','implement','integrat','deploy','setup','go live','weeks','hl7','fhir'],
+ reply: "MET-Ai deploys in <strong>6 weeks</strong>:<br><br><strong>Week 1-2:</strong> Discovery & integration setup<br><strong>Week 3-4:</strong> Staff training & parallel running<br><strong>Week 5-6:</strong> Go-live with dedicated support<br><strong>Ongoing:</strong> Continuous model improvement<br><br>We integrate with all major EMR, PACS, and HIS via HL7 FHIR — no rip-and-replace required.",
+    quick: ['See How It Works','Contact Us','Get a Quote']
+  },
+  pricing: {
+    triggers: ['price','cost','pricing','how much','affordable','fee','charge','plan','package','quote'],
+ reply: "MET-Ai pricing is <strong>customized per hospital</strong> based on:<br><br>• Bed count and patient volume<br>• Modules selected<br>• Deployment scale (single site vs multi-site)<br><br>We offer modular pricing (pay only for what you use), outcomes-linked pricing, and startup-friendly pilot rates.<br><br>Contact Eeswar directly for a custom quote!",
+    quick: ['Get a Quote','Contact Us','View Portfolio']
+  },
+  careers: {
+    triggers: ['career','job','hire','work','join','role','vacancy','position','internship','employ'],
+ reply: "We're building our founding team! <strong>Open roles include:</strong><br><br>ML / AI Engineers<br>Full-Stack Developers<br>IoT / Embedded Engineers<br>Clinical Advisors<br>Data Scientists<br>Business Development<br><br>Join us and help build the future of healthcare!",
+    quick: ['See Careers Page','Contact Eeswar']
+  },
+  thanks: {
+    triggers: ['thank','thanks','thank you','thankyou','thx','ty','great','awesome','good','nice','helpful','perfect'],
+ reply: "You're very welcome! I'm always here to help you explore MET-Ai Solutions.<br><br>Is there anything else you'd like to know about our healthcare AI platform?",
+    quick: ['Our Solutions','Contact Us','Technology Stack']
+  },
+  bye: {
+    triggers: ['bye','goodbye','see you','take care','cya','later','exit','quit','close'],
+ reply: "Goodbye! Thank you for exploring MET-Ai Solutions. We hope to transform healthcare together.<br><br>Feel free to come back anytime — I'm always here! ",
+    quick: ['Contact Us','View Portfolio']
+  }
+};
+
+/* Page navigation map */
+var NAV_MAP = {
+  'Our Solutions':            '#solutions',
+  'Technology Stack':         '#technology',
+  'Meet the Founder':         '#about',
+  'Contact Us':               '#contact',
+  'Go to Contact Section':    '#contact',
+  'AI Diagnostics':           'sol-diagnostics.html',
+  'See Diagnostics Page':     'sol-diagnostics.html',
+  'Predictive Analytics':     'sol-predictive.html',
+  'See Predictive Analytics Page': 'sol-predictive.html',
+  'Hospital Automation':      'sol-automation.html',
+  'See Automation Page':      'sol-automation.html',
+  'Remote Monitoring':        'sol-remote.html',
+  'See Monitoring Page':      'sol-remote.html',
+  'See Medication Page':      'sol-medication.html',
+  'See Personalized Medicine Page': 'sol-personalized.html',
+  'Machine Learning':         'tech-ml.html',
+  'Computer Vision':          'tech-cv.html',
+  'IoT Sensors':              'tech-iot.html',
+  'HIPAA Security':           'tech-hipaa.html',
+  'Other Solutions':          '#solutions',
+  'View Founder Profile':     'founder.html',
+  'Connect on LinkedIn':      'https://www.linkedin.com/in/makineni-eeswar-69b222253?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+  'Contact Eeswar':           'https://makinenieeswar.github.io/websites/',
+  'WhatsApp Us':              'https://wa.me/+910000000000?text=Hello%20MET-Ai%20Solutions!',
+  'Email Eeswar':             'mailto:admin@metaisolutions.com',
+  'View Portfolio':           'https://makinenieeswar.github.io/websites/',
+  'Why MET-Ai':               'why-metai.html',
+  'See Impact Page':          'impact.html',
+  'See Careers Page':         'careers.html',
+  'See How It Works':         'how-it-works.html',
+  'How It Works':             'how-it-works.html',
+  'Get a Quote':              '#contact'
+};
+
+/* ── DOM helpers ── */
+function getMsgs(){ return document.getElementById('chMessages'); }
+function getQuick(){ return document.getElementById('chQuick'); }
+function getInput(){ return document.getElementById('chInput'); }
+function nowTime(){
+  var d=new Date();
+  return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+}
+
+/* ── Add a message bubble ── */
+function chatAddMsg(text, role) {
+  var msgs = getMsgs();
+  var wrap = document.createElement('div');
+  wrap.className = 'ch-msg ' + (role==='user' ? 'ch-msg-user' : 'ch-msg-bot');
+
+  var avatar = document.createElement('div');
+  avatar.className = 'ch-msg-av ' + (role==='user' ? 'ch-av-user' : 'ch-av-bot');
+  avatar.setAttribute('aria-hidden','true');
+  avatar.innerHTML = role==='user' ? '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" width=\"15\" height=\"15\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M5 20a7 7 0 0 1 14 0\"/></svg>' : '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" width=\"15\" height=\"15\"><rect x=\"4\" y=\"8\" width=\"16\" height=\"12\" rx=\"3\"/><path d=\"M12 4v4\"/></svg>';
+
+  var body = document.createElement('div');
+  body.className = 'ch-msg-body';
+
+  var bubble = document.createElement('div');
+  bubble.className = 'ch-bubble';
+  bubble.innerHTML = text;
+
+  var time = document.createElement('div');
+  time.className = 'ch-time';
+  time.textContent = nowTime();
+
+  body.appendChild(bubble);
+  body.appendChild(time);
+
+  if(role==='user'){
+    wrap.appendChild(body);
+    wrap.appendChild(avatar);
+  } else {
+    wrap.appendChild(avatar);
+    wrap.appendChild(body);
+  }
+
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+  chatHistory.push({role:role, text:text});
+}
+
+/* ── Show typing indicator ── */
+function chatShowTyping() {
+  var msgs = getMsgs();
+  var wrap = document.createElement('div');
+  wrap.className = 'ch-msg ch-msg-bot';
+  wrap.id = 'ch-typing';
+
+  var avatar = document.createElement('div');
+  avatar.className = 'ch-msg-av ch-av-bot';
+  avatar.setAttribute('aria-hidden','true');
+  avatar.innerHTML = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" width=\"15\" height=\"15\"><rect x=\"4\" y=\"8\" width=\"16\" height=\"12\" rx=\"3\"/><path d=\"M12 4v4\"/></svg>';
+
+  var bubble = document.createElement('div');
+  bubble.className = 'ch-bubble ch-typing-bubble';
+  bubble.setAttribute('aria-label','MediBot is typing');
+  bubble.innerHTML = '<span class="ch-tdot"></span><span class="ch-tdot"></span><span class="ch-tdot"></span>';
+
+  wrap.appendChild(avatar);
+  wrap.appendChild(bubble);
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function chatRemoveTyping() {
+  var t = document.getElementById('ch-typing');
+  if(t) t.remove();
+}
+
+/* ── Set quick replies ── */
+function chatSetQuick(replies) {
+  var el = getQuick();
+  el.innerHTML = '';
+  if(!replies || replies.length===0) return;
+  replies.forEach(function(r){
+    var btn = document.createElement('button');
+    btn.className = 'ch-qbtn';
+    btn.textContent = r;
+ btn.setAttribute('aria-label', 'Quick reply: ' + r);
+    btn.onclick = function(){ chatHandleQuick(r); };
+    el.appendChild(btn);
+  });
+}
+
+/* ── Handle quick reply click ── */
+function chatHandleQuick(text) {
+  chatAddMsg(text, 'user');
+  chatSetQuick([]);
+
+  var link = NAV_MAP[text];
+  if(link) {
+    var delay = 400;
+    if(link.startsWith('#')) {
+      setTimeout(function(){
+        closeChat();
+        var target = document.querySelector(link);
+        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      }, delay);
+    } else if(link.startsWith('mailto:')) {
+      setTimeout(function(){ window.location.href = link; }, delay);
+    } else if(link.startsWith('http') || link.startsWith('https')) {
+      setTimeout(function(){ window.open(link, '_blank', 'noopener'); }, delay);
+    } else {
+      setTimeout(function(){ window.location.href = link; }, delay);
+    }
+    return;
+  }
+  chatGetReply(text);
+}
+
+/* ── Match input to knowledge base ── */
+function chatFindMatch(input) {
+  var lower = input.toLowerCase().trim();
+  var bestKey = null;
+  var bestScore = 0;
+
+  for(var key in KB) {
+ if(key === '_fallback') continue;
+    var triggers = KB[key].triggers;
+    for(var i=0; i<triggers.length; i++) {
+      if(lower.indexOf(triggers[i]) > -1) {
+        var score = triggers[i].length;
+        if(score > bestScore) {
+          bestScore = score;
+          bestKey = key;
+        }
+      }
+    }
+  }
+  return bestKey;
+}
+
+/* ── Get and display bot reply ── */
+function chatGetReply(input) {
+  if(chatThinking) return;
+  chatThinking = true;
+
+  chatShowTyping();
+
+  var delay = 800 + Math.random() * 600;
+
+  setTimeout(function(){
+    chatRemoveTyping();
+    var key = chatFindMatch(input);
+    var data = key ? KB[key] : null;
+
+    if(data) {
+      chatAddMsg(data.reply, 'bot');
+      chatSetQuick(data.quick || []);
+    } else {
+ /* Smart fallback with context */
+ var fallback = "I'm not quite sure about that, but here's what I can help you with right now:<br><br>• Explore our <strong>6 AI solutions</strong> for hospitals<br>• Learn about our <strong>technology stack</strong><br>• See our <strong>clinical impact data</strong><br>• <strong>Get in touch</strong> with our team<br><br>Try asking something like: <em>\"What solutions do you offer?\"</em> or <em>\"How do I contact MET-Ai?\"</em>";
+ chatAddMsg(fallback, 'bot');
+      chatSetQuick(['Our Solutions','Technology Stack','Impact & Outcomes','Contact Us']);
+    }
+    chatThinking = false;
+  }, delay);
+}
+
+/* ── Send message from input ── */
+function chatSend() {
+  var inp = getInput();
+  var text = inp.value.trim();
+  if(!text || chatThinking) return;
+  inp.value = '';
+  chatSetQuick([]);
+  chatAddMsg(text, 'user');
+  chatGetReply(text);
+}
+
+/* ── Open chat ── */
+function openChat() {
+  chatIsOpen = true;
+  var panel = document.getElementById('chatPanel');
+  var btn = document.getElementById('chatBtn');
+  var badge = document.getElementById('chatBadge');
+  panel.classList.add('ch-open');
+  panel.setAttribute('aria-hidden','false');
+  if(badge) badge.style.display = 'none';
+
+ /* Welcome message on first open */
+  if(chatHistory.length === 0) {
+    setTimeout(function(){ chatShowTyping(); }, 500);
+    setTimeout(function(){
+      chatRemoveTyping();
+      chatAddMsg(
+        " Hi there! I'm <strong>MediBot</strong>, the AI assistant for MET-Ai Solutions!<br><br>I'm here to help you explore our healthcare AI platform, understand our solutions, or connect with our team. What would you like to know?",
+        'bot'
+      );
+      chatSetQuick(['Our Solutions','Technology Stack','Impact & Outcomes','Contact Us']);
+    }, 1400);
+  }
+
+  setTimeout(function(){ getInput().focus(); }, 300);
+}
+
+/* ── Close chat ── */
+function closeChat() {
+  chatIsOpen = false;
+  var panel = document.getElementById('chatPanel');
+  panel.classList.remove('ch-open');
+  panel.setAttribute('aria-hidden','true');
+}
+
+/* ── Toggle chat ── */
+function toggleChat() {
+  if(chatIsOpen) closeChat(); else openChat();
+}
+
+/* ── Keyboard: Enter to send ── */
+document.addEventListener('DOMContentLoaded', function(){
+  var inp = getInput();
+  if(inp){
+    inp.addEventListener('keydown', function(e){
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); chatSend(); }
+    });
+  }
+  /* Close chat on Escape */
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && chatIsOpen) closeChat();
+  });
+  /* Attach toggle to chat button */
+  var chatBtn = document.getElementById('chatBtn');
+  if(chatBtn) chatBtn.onclick = toggleChat;
+});
+</script>
+
+<div id="searchOv" role="dialog" aria-modal="true" aria-label="Search MET-Ai" onclick="if(event.target===this)closeSearch()">
+  <div class="s-box">
+    <div class="s-top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="Search solutions, technologies, company..." autocomplete="off" spellcheck="false">
+      <span class="s-esc">ESC</span>
+    </div>
+    <div class="s-results" id="searchResults"></div>
+    <div class="s-foot"><span><span class="k">&#8593;</span><span class="k">&#8595;</span> navigate</span><span><span class="k">&#8629;</span> open</span><span><span class="k">esc</span> close</span></div>
+  </div>
+</div>
+<script>
+var SEARCH_DATA=[{"t": "AI Diagnostics Engine", "u": "sol-diagnostics.html", "c": "Solution", "d": "Multi-modal deep learning that analyses symptoms, laboratory results, and imaging simultaneously to deliver a ranked diagnosis in under two seconds.", "k": "diagnosis imaging radiology pathology sepsis cardiac accuracy differential"}, {"t": "Predictive Health Analytics", "u": "sol-predictive.html", "c": "Solution", "d": "Forecasts patient deterioration, disease onset, and readmission risk up to seventy-two hours before symptoms become clinically apparent.", "k": "risk score deterioration sepsis readmission early warning icu prediction"}, {"t": "Hospital Automation Suite", "u": "sol-automation.html", "c": "Solution", "d": "End-to-end intelligent automation of every hospital workflow, from admission and scheduling to billing and discharge, on one unified platform.", "k": "admission billing scheduling bed management discharge revenue supply chain"}, {"t": "Smart Medication Management", "u": "sol-medication.html", "c": "Solution", "d": "Prescription validation, real-time drug interaction checking, and automated dispensing engineered to eliminate medication errors.", "k": "medication drug interaction allergy dispensing pharmacy dosing safety"}, {"t": "Remote Patient Monitoring", "u": "sol-remote.html", "c": "Solution", "d": "Continuous, connected monitoring of patient vitals from any location, with intelligent alerts delivered in under one second.", "k": "remote monitoring wearable iot vitals home icu telemetry sensors"}, {"t": "Personalised Medicine AI", "u": "sol-personalized.html", "c": "Solution", "d": "Combines genomic data, clinical history, and real-time measurements to generate treatment pathways designed for each patient's biology.", "k": "genomics precision oncology pharmacogenomics personalised treatment dna"}, {"t": "Machine Learning", "u": "tech-ml.html", "c": "Technology", "d": "Neural networks trained on millions of clinical records to power diagnosis, prediction, and automation across the platform.", "k": "machine learning neural network model prediction training ai supervised"}, {"t": "Computer Vision", "u": "tech-cv.html", "c": "Technology", "d": "Deep learning models that analyse X-rays, MRI, CT, and pathology slides with radiologist-level accuracy in seconds.", "k": "imaging radiology xray mri ct scan pathology tumour detection vision"}, {"t": "NLP & Voice AI", "u": "tech-nlp.html", "c": "Technology", "d": "Converts spoken and written clinical language into structured, coded, actionable medical data automatically.", "k": "nlp voice transcription documentation coding icd snomed dictation language"}, {"t": "IoT Sensors", "u": "tech-iot.html", "c": "Technology", "d": "Connects every sensor, monitor, and wearable into one real-time intelligence platform with sub-second alert delivery.", "k": "iot sensor device wearable monitor telemetry connected real-time"}, {"t": "Cloud & Edge Computing", "u": "tech-cloud.html", "c": "Technology", "d": "Cloud-native architecture with edge inference for near-zero latency and complete India data sovereignty.", "k": "cloud edge computing latency scalable kubernetes infrastructure sovereignty"}, {"t": "HIPAA-Grade Security", "u": "tech-hipaa.html", "c": "Technology", "d": "Military-grade encryption, Zero Trust architecture, and full India DPDP Act compliance protecting every record.", "k": "security encryption hipaa dpdp compliance privacy zero trust audit"}, {"t": "Bioinformatics AI", "u": "tech-bio.html", "c": "Technology", "d": "Processes genomic data to personalise treatment for each patient's genetic biology and drug metabolism profile.", "k": "genomics bioinformatics dna sequencing precision oncology pharmacogenomics"}, {"t": "Real-Time Engine", "u": "tech-realtime.html", "c": "Technology", "d": "Processes millions of clinical events per second, delivering AI alerts in under one hundred milliseconds.", "k": "real-time stream processing latency alert early warning kafka events"}, {"t": "Why MET-Ai", "u": "why-metai.html", "c": "Company", "d": "The case for intelligent healthcare: the problems MET-Ai solves and the outcomes it delivers.", "k": "why mission problem healthcare errors vision purpose"}, {"t": "How It Works", "u": "how-it-works.html", "c": "Company", "d": "A complete walkthrough of the six-layer AI architecture and the six-week deployment process.", "k": "how it works architecture integration deployment emr fhir timeline"}, {"t": "Impact & Outcomes", "u": "impact.html", "c": "Company", "d": "Quantified improvements in patient outcomes, hospital efficiency, staff satisfaction, and financial performance.", "k": "impact outcomes roi results efficiency cost reduction quality"}, {"t": "Industries & Segments", "u": "industries.html", "c": "Company", "d": "The healthcare organisations MET-Ai serves, from multi-specialty hospitals to rural primary care.", "k": "industries hospitals clinics pharmacy laboratory rural paediatric geriatric"}, {"t": "Careers at MET-Ai", "u": "careers.html", "c": "Company", "d": "Open roles and the opportunity to join the founding team building India's healthcare AI platform.", "k": "careers jobs hiring roles engineering team join founding"}, {"t": "Eeswar Makineni — Founder & CEO", "u": "founder.html", "c": "Company", "d": "The founder and chief executive building AI-driven, fully automated healthcare from Amaravathi, Andhra Pradesh.", "k": "founder ceo eeswar makineni leadership about profile"}, {"t": "Home — Overview", "u": "met-ai-solutions.html", "c": "Overview", "d": "The intelligent nervous system for the modern hospital: diagnostics, prediction, automation, and monitoring in one platform.", "k": "home overview met-ai healthcare ai platform hospital"}, {"t": "About MET-Ai", "u": "met-ai-solutions.html#about", "c": "Overview", "d": "Medi Electronic Technology and Artificial Intelligence, founded in Amaravathi to automate and elevate hospital care.", "k": "about company mission medi electronic technology"}, {"t": "Contact", "u": "met-ai-solutions.html#contact", "c": "Overview", "d": "Reach the MET-Ai team to arrange a demonstration, discuss a pilot, or explore partnership opportunities.", "k": "contact email whatsapp phone demo pilot enquiry"}];
+var _si=-1,_sr=[];
+function openSearch(){var o=document.getElementById('searchOv');o.classList.add('on');document.body.style.overflow='hidden';var i=document.getElementById('searchInput');i.value='';setTimeout(function(){i.focus();},60);runSearch('');}
+function closeSearch(){document.getElementById('searchOv').classList.remove('on');document.body.style.overflow='';_si=-1;}
+function _catI(c){var m={'Solution':'#00c8c8','Technology':'#7c3aed','Company':'#f59e0b','Overview':'#00c8c8'};return m[c]||'#00c8c8';}
+function runSearch(q){q=q.trim().toLowerCase();var box=document.getElementById('searchResults');
+ var list=SEARCH_DATA.filter(function(x){if(!q)return true;var hay=(x.t+' '+x.c+' '+x.d+' '+x.k).toLowerCase();return q.split(/\s+/).every(function(w){return hay.indexOf(w)>-1;});});
+ _sr=list;_si=list.length?0:-1;
+ if(!list.length){box.innerHTML='<div class="s-empty"><div style="font-family:Syne,sans-serif;font-weight:700;font-size:16px;color:#0a0f2e;margin-bottom:4px">No results for &ldquo;'+q+'&rdquo;</div><div style="font-size:13px">Try &ldquo;diagnostics&rdquo;, &ldquo;security&rdquo;, or &ldquo;monitoring&rdquo;.</div></div>';return;}
+ var groups={};list.forEach(function(x){(groups[x.c]=groups[x.c]||[]).push(x);});
+ var order=['Solution','Technology','Company','Overview'],html='',idx=0;
+ order.forEach(function(g){if(!groups[g])return;html+='<div class="s-group">'+g+'</div>';
+  groups[g].forEach(function(x){var col=_catI(x.c);
+   html+='<a class="s-item" data-i="'+idx+'" href="'+x.u+'"><span style="width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,'+col+',#7c3aed)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><span class="s-txt"><span class="s-t">'+x.t+'</span><span class="s-d">'+x.d+'</span></span><svg class="s-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';idx++;});});
+ box.innerHTML=html;_hl();}
+function _hl(){var it=document.querySelectorAll('.s-item');it.forEach(function(el,i){el.classList.toggle('sel',i===_si);});var s=document.querySelector('.s-item.sel');if(s)s.scrollIntoView({block:'nearest'});}
+document.addEventListener('keydown',function(e){var open=document.getElementById('searchOv').classList.contains('on');
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();open?closeSearch():openSearch();return;}
+ if(e.key==='/'&&!open&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();openSearch();return;}
+ if(open){if(e.key==='Escape')closeSearch();else if(e.key==='ArrowDown'){e.preventDefault();if(_si<_sr.length-1){_si++;_hl();}}else if(e.key==='ArrowUp'){e.preventDefault();if(_si>0){_si--;_hl();}}else if(e.key==='Enter'){e.preventDefault();var s=document.querySelector('.s-item.sel');if(s)window.location.href=s.getAttribute('href');}}});
+document.addEventListener('DOMContentLoaded',function(){var si=document.getElementById('searchInput');if(si)si.addEventListener('input',function(){runSearch(this.value);});});
+</script>
+<script>
+function toggleMobileNav(){
+  var p=document.getElementById('mnavPanel'), b=document.getElementById('mnavBackdrop'), h=document.getElementById('hamBtn');
+  var isOn = p.classList.contains('on');
+  if(isOn){ closeMobileNav(); } else {
+    p.classList.add('on'); b.classList.add('on'); h.classList.add('on');
+    h.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden';
+  }
+}
+function closeMobileNav(){
+  var p=document.getElementById('mnavPanel'), b=document.getElementById('mnavBackdrop'), h=document.getElementById('hamBtn');
+  if(p){p.classList.remove('on');} if(b){b.classList.remove('on');} if(h){h.classList.remove('on'); h.setAttribute('aria-expanded','false');}
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeMobileNav(); });
+</script>
+</body>
+</html>
